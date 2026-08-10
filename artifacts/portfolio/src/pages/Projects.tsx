@@ -32,10 +32,10 @@ const PROJECTS = [
   {
     id:    'p001',
     title: 'De buurtspoorwegen in Brabant',
-    desc:  'Een historisch-morfologische lezing van het diffuse verstedelijkingsproces.',
+    desc:  'Een historisch-morfologische lezing van het diffuse verstedelijkingsproces. (NL).',
     img:   'thesisboek.png',
     ratio: '4157 / 5906',
-    date:  '2025–2026',
+    date:  'Master thesis STeR* 2025–2026.',
   },
   {
     id:    'p002',
@@ -43,16 +43,25 @@ const PROJECTS = [
     desc:  'Positive Energy Districts in Intermediate Territories: the Case of Pajottenland.',
     img:   'pen-network.jpeg',
     ratio: '4000 / 3000',
-    date:  '2026',
+    date:  'Design Studio 2026',
   },
   {
     id:    'p004',
     title: 'Ruimtelijk Ontwerp',
-    desc:  'Masterplan Ossegem Station.',
+    desc:  'Masterplan Ossegem Station. (NL).',
     img:   'ruimtelijk-ontwerp.png',
     ratio: '9921 / 7016',
-    date:  '2025',
-    externalUrl: 'https://github.com/linkyk3/MyWebsite/releases/download/alpha/ruimtelijk-ontwerp.pdf',
+    date:  'Ruimtelijk Ontwerp 2025',
+    externalUrl: `${BASE}works/ruimtelijk-ontwerp.pdf`,
+  },
+  {
+    id:    'p009',
+    title: 'Design Of An Electronic Control Unit With Integrated Dashboard For A Formula Student Race Car',
+    desc:  'Master thesis Industrial Engineering Electronics-ICT - Embedded Systems, VUBRacing',
+    img:   'ma_iw.png',
+    ratio: '1 / 1',
+    date:  'Master thesis IW 2023–2024',
+    externalUrl: `${BASE}works/ma_iw.pdf`,
   },
   {
     id:    'p003',
@@ -60,8 +69,8 @@ const PROJECTS = [
     desc:  'The Fietssnelwegen Network and the Friction Between Landscape Urbanism and Engineering.',
     img:   'lu-paper.png',
     ratio: '4157 / 5906',
-    date:  '2026',
-    externalUrl: 'https://github.com/linkyk3/MyWebsite/releases/download/alpha/lu-paper.pdf',
+    date:  'Landscape Urbanism 2026',
+    externalUrl: `${BASE}works/lu-paper.pdf`,
   },
   {
     id:    'p005',
@@ -69,7 +78,7 @@ const PROJECTS = [
     desc:  'VUB MA STeR* – Video by Nette Sneyers and Seppe Goossens.',
     img:   'excursie.png',
     ratio: '2560 / 1440',
-    date:  '2026',
+    date:  'Excursion 2026',
     externalUrl: 'https://youtu.be/NPc29MOOhgc?si=uw_RoZn2H2unnMWN',
   },
   {
@@ -78,26 +87,26 @@ const PROJECTS = [
     desc:  "A Historical and Contemporary Review of Path Dependency in Belgium's Housing Landscape.",
     img:   'housing-paper.png',
     ratio: '4961 / 7016',
-    date:  '2025',
-    externalUrl: 'https://github.com/linkyk3/MyWebsite/releases/download/alpha/housing-paper.pdf',
+    date:  'Housing 2025',
+    externalUrl: `${BASE}works/housing-paper.pdf`,
   },
   {
     id:    'p006',
     title: 'Methoden en Technieken: Ruimtelijke en Morfologische Analyse',
-    desc:  'Mahatma Gandhi – Master Stedenbouw en Ruimtelijke Planning.',
+    desc:  'Mahatma Gandhi – Master Stedenbouw en Ruimtelijke Planning. (NL).',
     img:   'mt-rm.png',
     ratio: '5906 / 4157',
-    date:  '2024',
-    externalUrl: 'https://github.com/linkyk3/MyWebsite/releases/download/alpha/mt-rm.pdf',
+    date:  'Methoden en Technieken: Ruimtelijke en Morfologische Analyse 2024',
+    externalUrl: `${BASE}works/mt-rm.pdf`,
   },
   {
     id:    'p007',
     title: 'Frictie tussen beleid en beleving',
-    desc:  'Over parkeren en het ruimtelijke spanningsveld op de grens tussen Molenbeek en Koekelberg.',
+    desc:  'Over parkeren en het ruimtelijke spanningsveld op de grens tussen Molenbeek en Koekelberg. (NL).',
     img:   'mt-sr.png',
     ratio: '4961 / 7016',
-    date:  '2024–2025',
-    externalUrl: 'https://github.com/linkyk3/MyWebsite/releases/download/alpha/mt-sr.pdf',
+    date:  'Methoden en Technieken: Sociaal-Ruimtelijke Analyse 2024–2025',
+    externalUrl: `${BASE}works/mt-sr.pdf`,
   },
 ] as const;
 
@@ -288,7 +297,7 @@ export default function Projects() {
                 </div>
 
                 {/* Text block */}
-                <div className="mobile-project-text" style={{ flexShrink: 0, textAlign: 'right' }}>
+                <div className="mobile-project-text" style={{ flex: '1 1 0%', minWidth: 0, textAlign: 'right' }}>
                   <div style={f(500, 'clamp(1.08rem, 2.6vh, 1.55rem)', { letterSpacing: '-0.015em', lineHeight: 1.3, marginBottom: '0.3rem' })}>
                     {p.title}
                   </div>

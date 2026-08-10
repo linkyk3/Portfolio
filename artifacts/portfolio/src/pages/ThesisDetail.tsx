@@ -1,6 +1,7 @@
 import { Image, ImageGrid } from './ProjectDetail';
 import { useState, useEffect, useRef } from 'react';
 import { FloatingNav } from '@/components/FloatingNav';
+import { Button } from '@/components/ui/button';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -172,6 +173,18 @@ export default function ThesisDetail() {
         <p>De erfenis van de buurtspoorwegen bewijst zodoende dat fysieke dichtheid niet de enige manier is om een territorium te structureren; de kwaliteit waarmee verschillende schaalniveaus en landschapslagen met elkaar worden verbonden, vormt de ware sleutel tot een veerkrachtige en duurzame verstedelijking. Natuurlijk zijn er veel andere aspecten die meespelen, maar het is juist door een variatie aan analyses dat we bijdragen aan een gedifferentieerd begrip van de verstedelijkingsprocessen binnen België. Op deze wijze wordt het territorium van onderuit begrepen, wat een noodzakelijk tegenwicht biedt aan de gangbare, top-down benaderingen. Toekomstige ruimtelijke interventies in het territorium moeten bijgevolg ook onvoorwaardelijk vertrekken vanuit een diepgaande lezing en het begrijpen van de bestaande structuren, alvorens fysiek in te grijpen. Enkel zo kunnen onvoorziene, negatieve neveneffecten worden vermeden. Dit onderzoek levert hiermee een bijdrage aan een diepere, gelaagde lezing van ons landschap. De uiteindelijke les van deze reflectie luidt dan ook dat het herstellen van de breuklijn tussen infrastructuur, landschap en samenleving vraagt om een proactieve, gelaagde herlezing van het territorium.</p>
 
         <Image src={`${BASE}thesis/extract-20.jpg`} alt="Extract 20" />
+
+        <div className="mt-16 flex flex-col items-center gap-3 text-center">
+          <Button asChild>
+            <a
+              href="https://github.com/linkyk3/Portfolio/releases/download/alpha/GoossensSeppe_Masterproef_STeR25-26_spreads.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Download
+            </a>
+          </Button>
+        </div>
       </article>
       </div>
     </>
