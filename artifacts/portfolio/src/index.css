@@ -179,6 +179,8 @@
   --shadow-lg: 0px 2px 0px 0px rgba(0,0,0,0);
   --shadow-xl: 0px 2px 0px 0px rgba(0,0,0,0);
   --shadow-2xl: 0px 2px 0px 0px rgba(0,0,0,0);
+  --project-drop-shadow: drop-shadow(0 8px 10px rgba(255, 255, 255, 0.16));
+  --project-drop-shadow-hover: drop-shadow(0 20px 25px rgba(255, 255, 255, 0.22));
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 
@@ -243,6 +245,8 @@
   --shadow-lg: 0px 2px 0px 0px rgba(255,255,255,0);
   --shadow-xl: 0px 2px 0px 0px rgba(255,255,255,0);
   --shadow-2xl: 0px 2px 0px 0px rgba(255,255,255,0);
+  --project-drop-shadow: drop-shadow(0 12px 18px rgba(255, 255, 255, 0.22));
+  --project-drop-shadow-hover: drop-shadow(0 24px 30px rgba(255, 255, 255, 0.32));
 }
 
 /* LIGHT MODE OVERRIDE — toggled via .light class on <html> */
@@ -269,6 +273,8 @@
   --button-outline: rgba(0, 0, 0, 0.1);
   --elevate-1: rgba(0, 0, 0, 0.03);
   --elevate-2: rgba(0, 0, 0, 0.08);
+  --project-drop-shadow: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.12));
+  --project-drop-shadow-hover: drop-shadow(0 24px 30px rgba(0, 0, 0, 0.18));
 }
 
 @layer base {

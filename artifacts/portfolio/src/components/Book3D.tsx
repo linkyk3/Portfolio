@@ -19,16 +19,21 @@ function Book({ frontImg, backImg, spineImg, ...props }: BookProps) {
     spineImg,
   ]);
 
-  // Rotate book based on mouse pointer position
+  // Rotate book based on mouse pointer position with a stronger idle motion so it feels alive immediately
   useFrame((state, delta) => {
     if (groupRef.current) {
       const pointer = state.pointer;
-      // Clamp the vertical rotation (X-axis) to prevent flipping
-      const targetX = THREE.MathUtils.clamp(-pointer.y * 0.5, -0.4, 0.4);
-      groupRef.current.rotation.x = lerp(groupRef.current.rotation.x, targetX, delta * 2);
+      const alpha = 1 - Math.exp(-delta * 5);
+      const idleX = Math.sin(state.clock.elapsedTime * 0.85) * 0.13;
+      const idleY = Math.sin(state.clock.elapsedTime * 1.05) * 0.34;
 
-      // Allow for a full rotation on the horizontal axis (Y-axis)
-      groupRef.current.rotation.y = lerp(groupRef.current.rotation.y, pointer.x * Math.PI, delta * 2);
+      // Clamp the vertical rotation (X-axis) to prevent flipping while keeping the look intact
+      const targetX = THREE.MathUtils.clamp(-pointer.y * 0.35 + idleX, -0.28, 0.28);
+      groupRef.current.rotation.x = lerp(groupRef.current.rotation.x, targetX, alpha);
+
+      // Keep the horizontal movement subtle so the book stays comfortably within view
+      const targetY = THREE.MathUtils.clamp(pointer.x * 0.8 + idleY, -0.8, 0.8);
+      groupRef.current.rotation.y = lerp(groupRef.current.rotation.y, targetY, alpha);
     }
   });
 
@@ -54,11 +59,14 @@ function Book({ frontImg, backImg, spineImg, ...props }: BookProps) {
 }
 
 export function BookScene(props: Omit<BookProps, 'children' | 'ref'>) {
+  const dpr = typeof window !== 'undefined' ? Math.min(window.devicePixelRatio || 1, 1.5) : 1;
+
   return (
     <Canvas
       frameloop="always"
+      dpr={dpr}
       camera={{ position: [0, 0, 6.5], fov: 35 }}
-      gl={{ preserveDrawingBuffer: true }}
+      gl={{ antialias: true, powerPreference: 'low-power', preserveDrawingBuffer: false }}
       style={{
         cursor: 'pointer',
         width: '100%',
@@ -66,19 +74,19 @@ export function BookScene(props: Omit<BookProps, 'children' | 'ref'>) {
         transition: 'filter 0.3s ease, transform 0.3s ease',
       }}
     >
-      <ambientLight intensity={1.5} />
-      <directionalLight position={[5, 5, 5]} intensity={1} />
-      <directionalLight position={[-5, -5, -5]} intensity={0.5} color="#e0e0ff" />
+      <ambientLight intensity={1.2} />
+      <directionalLight position={[5, 5, 5]} intensity={0.8} />
+      <directionalLight position={[-5, -5, -5]} intensity={0.4} color="#e0e0ff" />
       <Suspense fallback={null}>
         <Book {...props} />
         <ContactShadows
           position={[0, -1.3, 0]}
-          opacity={0.6}
+          opacity={0.35}
           scale={10}
           blur={2.5}
           far={2}
-          resolution={256}
-          color="#000000"
+          resolution={128}
+          color="#ffffff"
         />
       </Suspense>
     </Canvas>

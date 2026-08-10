@@ -258,14 +258,14 @@ export default function Projects() {
                         <BookScene frontImg={thesisFront} backImg={thesisBack} spineImg={thesisSide} />
                       </div>
                     ) : (
-                      <img src={`${BASE}works/${p.img}`} alt={p.title} style={{
+                      <img src={`${BASE}works/${p.img}`} alt={p.title} className="project-thumbnail" style={{
                           width: '100%',
                           height: '100%',
                           objectFit: 'contain',
                           display: 'block',
                           transition: 'filter 0.3s ease, transform 0.3s ease',
                           transform: hoveredId === p.id ? 'scale(1.03)' : 'scale(1)',
-                          filter: hoveredId === p.id ? 'drop-shadow(0 20px 25px rgb(0 0 0 / 0.2))' : 'drop-shadow(0 8px 10px rgb(0 0 0 / 0.1))',
+                          filter: hoveredId === p.id ? 'var(--project-drop-shadow-hover)' : 'var(--project-drop-shadow)',
                       }} loading="lazy" />
                     );
 
@@ -289,13 +289,13 @@ export default function Projects() {
 
                 {/* Text block */}
                 <div className="mobile-project-text" style={{ flexShrink: 0, textAlign: 'right' }}>
-                  <div style={f(500, '1rem', { letterSpacing: '-0.015em', lineHeight: 1.3, marginBottom: '0.3rem' })}>
+                  <div style={f(500, 'clamp(1.08rem, 2.6vh, 1.55rem)', { letterSpacing: '-0.015em', lineHeight: 1.3, marginBottom: '0.3rem' })}>
                     {p.title}
                   </div>
-                  <div style={f(300, '0.8rem', { opacity: 0.6, lineHeight: 1.5, letterSpacing: '0.004em', marginBottom: '0.5rem' })}>
+                  <div style={f(300, 'clamp(0.9rem, 2vh, 1.08rem)', { opacity: 0.6, lineHeight: 1.5, letterSpacing: '0.004em', marginBottom: '0.5rem' })}>
                     {p.desc}
                   </div>
-                  <div style={f(300, '0.72rem', { opacity: 0.3, letterSpacing: '0.04em', lineHeight: 1 })}>
+                  <div style={f(300, 'clamp(0.82rem, 1.6vh, 0.95rem)', { opacity: 0.3, letterSpacing: '0.04em', lineHeight: 1 })}>
                     {p.date}
                   </div>
                 </div>
