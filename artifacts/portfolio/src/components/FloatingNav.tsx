@@ -75,7 +75,7 @@ export function FloatingNav() {
 
       {/* Scroll to Top Button */}
       <button
-        className={`${buttonClass} bottom-6 left-6`}
+        className={`${buttonClass} bottom-16 left-6`}
         onClick={scrollToTop}
         aria-label="Scroll to top"
         data-testid="scroll-to-top"

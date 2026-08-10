@@ -26,13 +26,13 @@ export const ImageGrid = ({ children }: { children: React.ReactNode }) => (
 );
 
 export const ImageCollage = ({ images }: { images: string[] }) => (
-  <div className="flex justify-center gap-4 my-8" style={{ height: '30vh' }}>
-  {images.map((src, i) => (
-    <div key={i} className="h-full">
-      <img src={src} alt={`Collage image ${i + 1}`} className="h-full w-auto object-contain rounded-md [filter:drop-shadow(0_1px_2px_rgb(0,0,0,0.1))_drop-shadow(0_1px_1px_rgb(0,0,0,0.06))]" />
-    </div>
-  ))}
-</div>
+  <div className="grid grid-cols-2 gap-4 my-8">
+    {images.map((src, i) => (
+      <div key={i} className="w-full">
+        <img src={src} alt={`Collage image ${i + 1}`} className="w-full h-auto object-contain rounded-md [filter:drop-shadow(0_1px_2px_rgb(0,0,0,0.1))_drop-shadow(0_1px_1px_rgb(0,0,0,0.06))]" />
+      </div>
+    ))}
+  </div>
 );
 
 const projectComponentMap: { [key: string]: React.LazyExoticComponent<() => React.JSX.Element> | (() => React.JSX.Element) } = {

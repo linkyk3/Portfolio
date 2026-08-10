@@ -41,7 +41,7 @@ const PROJECTS = [
     id:    'p002',
     title: 'Design Studio',
     desc:  'Positive Energy Districts in Intermediate Territories: the Case of Pajottenland.',
-    img:   'pen-network.png',
+    img:   'pen-network.jpeg',
     ratio: '4000 / 3000',
     date:  '2026',
   },

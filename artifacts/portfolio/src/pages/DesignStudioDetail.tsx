@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { FloatingNav } from '@/components/FloatingNav';
 
 // Inlined Lightbox component to resolve import issues
-function Lightbox({ src, title, onClose }: { src: string | null; title: string | null; onClose: () => void; }) {
+function Lightbox({ src, onClose }: { src: string | null; onClose: () => void; }) {
   const [isVisible, setIsVisible] = useState(false);
   const [isZooming, setIsZooming] = useState(false);
   const [magnifierStyle, setMagnifierStyle] = useState({});
@@ -70,11 +70,6 @@ function Lightbox({ src, title, onClose }: { src: string | null; title: string |
             <div className="absolute pointer-events-none rounded-full border-2 border-white/50 bg-no-repeat shadow-2xl" style={{ ...magnifierStyle, backgroundImage: `url(${cleanSrc || ''})`, width: magnifierSize, height: magnifierSize }} />
           )}
         </div>
-        {title && (
-          <div className="text-sm text-foreground/90 px-1">
-            {title}
-          </div>
-        )}
       </div>
     </div>
   );
@@ -83,32 +78,32 @@ function Lightbox({ src, title, onClose }: { src: string | null; title: string |
 const BASE = import.meta.env.BASE_URL;
 
 const A_SERIES_IMAGES = [
-  `${BASE}design_studio/part1/a1.png`,
-  `${BASE}design_studio/part1/a2.jpg`,
-  `${BASE}design_studio/part1/a3.png`,
-  `${BASE}design_studio/part1/a4.png`,
+  `${BASE}design_studio/part1/a1.jpg`,
+  `${BASE}design_studio/part1/a2 (1).jpg`,
+  `${BASE}design_studio/part1/a3.jpg`,
+  `${BASE}design_studio/part1/a4.jpg`,
 ];
 const B_SERIES_IMAGES = [
-  `${BASE}design_studio/part1/b1.png`,
-  `${BASE}design_studio/part1/b2.png`,
-  `${BASE}design_studio/part1/b3.png`,
-  `${BASE}design_studio/part1/b4.png`,
+  `${BASE}design_studio/part1/b1.jpg`,
+  `${BASE}design_studio/part1/b2.jpg`,
+  `${BASE}design_studio/part1/b3.jpg`,
+  `${BASE}design_studio/part1/b4.jpg`,
 ];
 
 const SESSION_IMAGES = [
-  `${BASE}design_studio/part1/session5_A3 conv 0.png`,
-  `${BASE}design_studio/part1/session5_A3 conv 1.png`,
-  `${BASE}design_studio/part1/session5_A3 conv 2.png`,
-  `${BASE}design_studio/part1/session5_A3 conv 3.png`,
-  `${BASE}design_studio/part1/session5_A3 conv 4.png`,
-  `${BASE}design_studio/part1/session5_A3 conv 5.png`,
-  `${BASE}design_studio/part1/session5_A3 conv 6.png`,
+  `${BASE}design_studio/part1/session5_A3 conv 0.jpg`,
+  `${BASE}design_studio/part1/session5_A3 conv 1.jpg`,
+  `${BASE}design_studio/part1/session5_A3 conv 2.jpg`,
+  `${BASE}design_studio/part1/session5_A3 conv 3.jpg`,
+  `${BASE}design_studio/part1/session5_A3 conv 4.jpg`,
+  `${BASE}design_studio/part1/session5_A3 conv 5.jpg`,
+  `${BASE}design_studio/part1/session5_A3 conv 6.jpg`,
   `${BASE}design_studio/part1/session5_A3 conv 8.png`,
 ];
 
 const SPECIAL_IMAGES = [
-  `${BASE}design_studio/part1/session5_A3 conv 7.png`,
-  `${BASE}design_studio/part1/session6_designquestion conv 0.png`,
+  `${BASE}design_studio/part1/session5_A3 conv 7.jpg`,
+  `${BASE}design_studio/part1/session6_designquestion conv 0.jpg`,
 ];
 
 const CRITERIA_IMAGES = [
@@ -120,19 +115,19 @@ const CRITERIA_IMAGES = [
 ];
 
 const SUITABILITY_IMAGES = [
-  `${BASE}design_studio/part2/3_suitability-maps_A3 conv 0.png`,
-  `${BASE}design_studio/part2/3_suitability-maps_A3 conv 1.png`,
-  `${BASE}design_studio/part2/3_suitability-maps_A3 conv 2.png`,
-  `${BASE}design_studio/part2/3_suitability-maps_A3 conv 3.png`,
+  `${BASE}design_studio/part2/3_suitability-maps_A3 conv 0.jpg`,
+  `${BASE}design_studio/part2/3_suitability-maps_A3 conv 1 (1).jpg`,
+  `${BASE}design_studio/part2/3_suitability-maps_A3 conv 2 (1).jpg`,
+  `${BASE}design_studio/part2/3_suitability-maps_A3 conv 3.jpg`,
 ];
 
 const NETWORK_IMAGES = [
-  `${BASE}design_studio/part2/4_abstract map conv 0.png`,
+  `${BASE}design_studio/part2/4_abstract map conv 0.jpg`,
   `${BASE}design_studio/part2/5_pen-network.png`,
 ];
 
 const OLYMPIA_IMAGES = [
-  `${BASE}design_studio/part2/6_Olympia conv 0.png`,
+  `${BASE}design_studio/part2/6_Olympia conv 0.jpg`,
   `${BASE}design_studio/part2/6_Olympia conv 1.png`,
 ];
 
@@ -158,31 +153,27 @@ const EXHIBITION_IMAGES = [
   `${BASE}design_studio/part2/PXL_20260610_095640256.jpg`, // Row 1
   `${BASE}design_studio/part2/PXL_20260610_095651009.jpg`,
   `${BASE}design_studio/part2/PXL_20260610_110033374.jpg`, // Row 2
-  `${BASE}design_studio/part2/PXL_20260610_110031479.jpg`, // Rotated
+  `${BASE}design_studio/part2/PXL_20260610_110050083.jpg`, // Row 2 paired with 110033374
   `${BASE}design_studio/part2/PXL_20260610_110037052.jpg`, // Row 3
   `${BASE}design_studio/part2/PXL_20260610_110039494.jpg`,
-  `${BASE}design_studio/part2/PXL_20260610_110050083.jpg`, // Row 4
-  `${BASE}design_studio/part2/PXL_20260610_110053054.jpg`, // Rotated
-  `${BASE}design_studio/part2/PXL_20260610_110045353.jpg`, // Row 5
+  `${BASE}design_studio/part2/PXL_20260610_110045353.jpg`, // Row 4
   `${BASE}design_studio/part2/PXL_20260610_110104973.jpg`,
   `${BASE}design_studio/part2/PXL_20260610_110112205.jpg`,
 ];
 
 export default function DesignStudioDetail() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [selectedImageTitle, setSelectedImageTitle] = useState<string | null>(null);
 
   return (
     <>
       <FloatingNav />
-      <Lightbox src={selectedImage} title={selectedImageTitle} onClose={() => { setSelectedImage(null); setSelectedImageTitle(null); }} />
+      <Lightbox src={selectedImage} onClose={() => { setSelectedImage(null); }} />
 
       <div onClick={(e) => {
         const target = e.target as HTMLElement;
         if (target.tagName === 'IMG' && target.closest('article, .relative')) {
           const img = target as HTMLImageElement;
           const isRotated = img.getAttribute('data-rotated') === 'true';
-          setSelectedImageTitle(img.alt);
           setSelectedImage(isRotated ? `${(target as HTMLImageElement).src}?rotated=true` : (target as HTMLImageElement).src);
         }
       }}>
@@ -227,19 +218,24 @@ export default function DesignStudioDetail() {
           To achieve this, our design studio adopted a rigorous, workshop-based research-by-design methodology divided into two fundamental phases across the semester. The first part of the semester was entirely dedicated to systemic analysis and interpretation, where we used extensive desktop research, site visits, and impromptu stakeholder interviews to unfold the layers of the Pajottenland palimpsest and pinpoint territorial barriers and opportunities. This multi-layered analytical mapping set the foundation for the second part of the studio, which shifted focus entirely toward developing actionable, design-led spatial strategies. By bridging spatial forms with socio-economic parameters and policy conditions, this secondary phase allowed us to translate abstract energy transition goals into a concrete, institutionalized design vision tailored specifically to our assigned case study.
         </p>
 
-        <ImageCollage images={SESSION_IMAGES} />
-
-        <div className="flex justify-center items-center gap-8 my-20">
-          <div className="flex-shrink-0 origin-center rotate-90">
-            <img src={SPECIAL_IMAGES[0]} alt="session 5 conv 7" className="object-contain" style={{ maxHeight: '30vh' }} data-rotated="true" />
+        <div className="grid gap-4 my-8">
+          <div className="grid grid-cols-4 gap-4">
+            {[SESSION_IMAGES[0], SESSION_IMAGES[1], SESSION_IMAGES[2], SESSION_IMAGES[7]].map((src, i) => (
+              <img key={i} src={src} alt={`Session image ${i + 1}`} className="w-full h-auto object-cover rounded-md border border-foreground/10 shadow-sm" />
+            ))}
           </div>
-          <div className="flex-shrink-0">
-            <img src={SPECIAL_IMAGES[1]} alt="session 6 design question" className="object-contain" style={{ maxHeight: '30vh' }} />
+          <div className="grid grid-cols-4 gap-4">
+            {SESSION_IMAGES.slice(3, 7).map((src, i) => (
+              <img key={i} src={src} alt={`Session image ${i + 4}`} className="w-full h-auto object-cover rounded-md border border-foreground/10 shadow-sm" />
+            ))}
+          </div>
+          <div className="flex justify-center mt-8">
+            <img src={SPECIAL_IMAGES[1]} alt="session 6 design question" className="w-3/4 h-auto object-contain rounded-md border border-foreground/10 shadow-sm" style={{ maxHeight: '40vh' }} />
           </div>
         </div>
 
         <p>
-          This methodology began with a comprehensive spatial criteria analysis overlaid across a 1.5 km x 1.5 km regional grid. We tracked high-tier spatial data such as farm and animal density to gauge biomass feedstock scalability, alongside local energy consumption and renewable production potentials. Crucially, we cross-referenced these metrics with the traditional landscape boundaries of Flanders (TradLa) to ensure that the deployment of capillary energy infrastructure respects historical regional morphologies and fragile heritage. To bridge these extensive GIS databases with real-world, on-the-ground stakeholders, we developed an interactive digital assessment tool. Using a web interface, a local decision-maker can input a specific address to immediately load its territorial GIS scores. By manually combining these with localized site data—such as structural integrity, roof area for solar panels, grid connectivity, and public ownership status—the tool outputs a customized radar diagram that highlights the site’s ideal programmatic potential within the network.
+          This methodology began with a comprehensive spatial criteria analysis overlaid across a 1.5 km x 1.5 km regional grid. We tracked high-tier spatial data such as farm and animal density to gauge biomass feedstock scalability, alongside local energy consumption and renewable production potentials. Crucially, we cross-referenced these metrics with the traditional landscape boundaries of Flanders (TradLa) to ensure that the deployment of capillary energy infrastructure respects historical regional morphologies and fragile heritage. To bridge these extensive GIS databases with real-world, on-the-ground stakeholders, we developed an interactive digital assessment tool. Using a web interface, a local decision-maker can input a specific address to immediately load its territorial GIS scores. By manually combining these with localized site data, such as structural integrity, roof area for solar panels, grid connectivity, and public ownership status, the tool outputs a customized radar diagram that highlights the site’s ideal programmatic potential within the network.
         </p>
 
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 my-8">
@@ -249,7 +245,7 @@ export default function DesignStudioDetail() {
         </div>
 
         <p>
-          The data harvested from the assessment tool operationalized our research by identifying regional suitability profiles based on four distinct network functions. These functions include Processing for active energy conversion, Gathering for biomass collection and sorting logistics, Distribution for energy buffering to minimize transmission losses, and Social for contextually grounded community cooperative hubs. Extracting aerial orthophotos of the grid cells revealed that while the highest and lowest scores followed the traditional urban-rural divide, the moderately suited spaces were dispersed across the entire Pajottenland. This finding verified the exact nature of an intermediate territory, showcasing a rich multiplicity of moderately suited nodes waiting to be integrated into a regional system. We translated this spatial logic into an Abstract Network Map and a conceptual Word Matrix to illustrate how different actors—such as local enterprises, breweries, schools, and farms—can structurally complement one another through shared workflows without requiring any single site to be completely overhauled.
+          The data harvested from the assessment tool operationalized our research by identifying regional suitability profiles based on four distinct network functions. These functions include Processing for active energy conversion, Gathering for biomass collection and sorting logistics, Distribution for energy buffering to minimize transmission losses, and Social for contextually grounded community cooperative hubs. Extracting aerial orthophotos of the grid cells revealed that while the highest and lowest scores followed the traditional urban-rural divide, the moderately suited spaces were dispersed across the entire Pajottenland. This finding verified the exact nature of an intermediate territory, showcasing a rich multiplicity of moderately suited nodes waiting to be integrated into a regional system. We translated this spatial logic into an Abstract Network Map and a conceptual Word Matrix to illustrate how different actors, such as local enterprises, breweries, schools, and farms, can structurally complement one another through shared workflows without requiring any single site to be completely overhauled.
         </p>
 
         <ImageGrid>
@@ -283,21 +279,17 @@ export default function DesignStudioDetail() {
             <img src={EXHIBITION_IMAGES[1]} alt="Exhibition view 2" className="w-full h-full object-contain rounded-md [filter:drop-shadow(0_1px_2px_rgb(0,0,0,0.1))_drop-shadow(0_1px_1px_rgb(0,0,0,0.06))]" />
           </div>
           <div className="grid grid-cols-2 gap-4 items-center justify-items-center">
-            <img src={EXHIBITION_IMAGES[2]} alt="Exhibition view 3" className="w-full h-full object-contain rounded-md [filter:drop-shadow(0_1px_2px_rgb(0,0,0,0.1))_drop-shadow(0_1px_1px_rgb(0,0,0,0.06))]" />
-            <div className="origin-center -rotate-90 [filter:drop-shadow(0_1px_2px_rgb(0,0,0,0.1))_drop-shadow(0_1px_1px_rgb(0,0,0,0.06))]"><img src={EXHIBITION_IMAGES[3]} alt="Exhibition view 4" className="object-contain rounded-md" style={{ maxHeight: '40vh' }} data-rotated="true" /></div>
+            <img src={EXHIBITION_IMAGES[2]} alt="Exhibition view 3" className="w-full h-full object-contain rounded-md [filter:drop-shadow(0_1px_2px_rgb(0,0,0,0.1))_drop-shadow(0_1px_1px_rgb(0,0,0,0.06))]" style={{ maxHeight: '40vh' }} />
+            <img src={EXHIBITION_IMAGES[3]} alt="Exhibition view 6" className="w-full h-full object-contain rounded-md [filter:drop-shadow(0_1px_2px_rgb(0,0,0,0.1))_drop-shadow(0_1px_1px_rgb(0,0,0,0.06))]" style={{ maxHeight: '40vh' }} />
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <img src={EXHIBITION_IMAGES[4]} alt="Exhibition view 5" className="w-full h-full object-contain rounded-md [filter:drop-shadow(0_1px_2px_rgb(0,0,0,0.1))_drop-shadow(0_1px_1px_rgb(0,0,0,0.06))]" />
-            <img src={EXHIBITION_IMAGES[5]} alt="Exhibition view 6" className="w-full h-full object-contain rounded-md [filter:drop-shadow(0_1px_2px_rgb(0,0,0,0.1))_drop-shadow(0_1px_1px_rgb(0,0,0,0.06))]" />
-          </div>
-          <div className="grid grid-cols-2 gap-4 items-center justify-items-center">
-            <img src={EXHIBITION_IMAGES[6]} alt="Exhibition view 7" className="w-full h-full object-contain rounded-md [filter:drop-shadow(0_1px_2px_rgb(0,0,0,0.1))_drop-shadow(0_1px_1px_rgb(0,0,0,0.06))]" />
-            <div className="origin-center -rotate-90 [filter:drop-shadow(0_1px_2px_rgb(0,0,0,0.1))_drop-shadow(0_1px_1px_rgb(0,0,0,0.06))]"><img src={EXHIBITION_IMAGES[7]} alt="Exhibition view 8" className="object-contain rounded-md" style={{ maxHeight: '40vh' }} data-rotated="true" /></div>
+            <img src={EXHIBITION_IMAGES[4]} alt="Exhibition view 4" className="w-full h-full object-contain rounded-md [filter:drop-shadow(0_1px_2px_rgb(0,0,0,0.1))_drop-shadow(0_1px_1px_rgb(0,0,0,0.06))]" />
+            <img src={EXHIBITION_IMAGES[5]} alt="Exhibition view 5" className="w-full h-full object-contain rounded-md [filter:drop-shadow(0_1px_2px_rgb(0,0,0,0.1))_drop-shadow(0_1px_1px_rgb(0,0,0,0.06))]" />
           </div>
           <div className="grid grid-cols-3 gap-4">
-            <img src={EXHIBITION_IMAGES[8]} alt="Exhibition view 9" className="w-full h-full object-contain rounded-md [filter:drop-shadow(0_1px_2px_rgb(0,0,0,0.1))_drop-shadow(0_1px_1px_rgb(0,0,0,0.06))]" />
-            <img src={EXHIBITION_IMAGES[9]} alt="Exhibition view 10" className="w-full h-full object-contain rounded-md [filter:drop-shadow(0_1px_2px_rgb(0,0,0,0.1))_drop-shadow(0_1px_1px_rgb(0,0,0,0.06))]" />
-            <img src={EXHIBITION_IMAGES[10]} alt="Exhibition view 11" className="w-full h-full object-contain rounded-md [filter:drop-shadow(0_1px_2px_rgb(0,0,0,0.1))_drop-shadow(0_1px_1px_rgb(0,0,0,0.06))]" />
+            <img src={EXHIBITION_IMAGES[6]} alt="Exhibition view 7" className="w-full h-full object-contain rounded-md [filter:drop-shadow(0_1px_2px_rgb(0,0,0,0.1))_drop-shadow(0_1px_1px_rgb(0,0,0,0.06))]" style={{ maxHeight: '40vh' }} />
+            <img src={EXHIBITION_IMAGES[7]} alt="Exhibition view 8" className="w-full h-full object-contain rounded-md [filter:drop-shadow(0_1px_2px_rgb(0,0,0,0.1))_drop-shadow(0_1px_1px_rgb(0,0,0,0.06))]" style={{ maxHeight: '40vh' }} />
+            <img src={EXHIBITION_IMAGES[8]} alt="Exhibition view 9" className="w-full h-full object-contain rounded-md [filter:drop-shadow(0_1px_2px_rgb(0,0,0,0.1))_drop-shadow(0_1px_1px_rgb(0,0,0,0.06))]" style={{ maxHeight: '40vh' }} />
           </div>
         </div>
 

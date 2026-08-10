@@ -10,8 +10,6 @@ import ProjectDetail from '@/pages/ProjectDetail';
 import Creations from '@/pages/Creations';
 import WorkInProgress from '@/pages/WorkInProgress';
 import { GlobalNav } from '@/components/GlobalNav';
-import { ThemeToggle } from '@/components/ThemeToggle';
-// ThemeToggleInline is rendered inside Home.tsx footer; ThemeToggle handles all other pages
 
 const queryClient = new QueryClient();
 
@@ -38,7 +36,6 @@ function App() {
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
           <GlobalNav />
           <Router />
-          <ThemeToggle />
         </WouterRouter>
         <Toaster />
       </TooltipProvider>
