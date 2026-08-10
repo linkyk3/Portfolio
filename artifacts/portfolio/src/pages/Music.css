@@ -1,0 +1,178 @@
+.music-page-shell {
+  position: relative;
+  --y2k-red: #ff0000;
+}
+
+.music-main-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+.music-selection-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(1.75rem, 4vw, 4.5rem);
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.music-unit {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--foreground);
+  position: relative;
+  width: clamp(420px, 44vw, 620px);
+  aspect-ratio: 1 / 1;
+  animation: scaleUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  transform-origin: center;
+  transform: scale(0);
+  transition: transform 0.3s ease;
+}
+
+.music-unit:hover {
+  transform: scale(1.05);
+  z-index: 10;
+}
+
+.music-unit:focus-visible {
+  outline: 2px solid var(--y2k-red);
+  outline-offset: 4px;
+}
+
+.music-unit:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.music-jewel-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 2;
+  display: block;
+  transition: filter 0.55s cubic-bezier(0.22, 0.8, 0.2, 1);
+}
+
+.music-selection-area:hover .music-unit:not(:hover) .music-jewel-image,
+.music-selection-area:hover .music-unit:not(:hover) .music-cd-image,
+.music-selection-area:focus-within .music-unit:not(:focus-visible) .music-jewel-image,
+.music-selection-area:focus-within .music-unit:not(:focus-visible) .music-cd-image {
+  filter: blur(1.9px) saturate(0.9) brightness(0.96);
+}
+
+.cd-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.music-cd-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  transition: filter 0.55s cubic-bezier(0.22, 0.8, 0.2, 1);
+}
+
+.music-content {
+  width: min(100%, 58rem);
+  margin: 0 auto;
+  padding: 2rem 0;
+  animation: contentFadeIn 0.5s ease;
+}
+
+.music-content-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--foreground);
+  padding-bottom: 1rem;
+}
+
+.music-content h2 {
+  margin: 0;
+  font-family: 'ABC ROM', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.music-content p {
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+.music-reset {
+  border: 1px solid var(--color-foreground);
+  background: transparent;
+  color: var(--color-foreground);
+  padding: 0.5rem 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 400;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.music-reset:hover,
+.music-reset:focus-visible {
+  background: var(--foreground);
+  color: var(--background);
+  border-color: var(--foreground);
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes contentFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .music-selection-area {
+    gap: 1.25rem;
+  }
+
+  .music-unit {
+    width: min(98vw, 540px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .music-unit {
+    animation: none !important;
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .music-selection-area:hover .music-unit:not(:hover) .music-jewel-image,
+  .music-selection-area:hover .music-unit:not(:hover) .music-cd-image,
+  .music-selection-area:focus-within .music-unit:not(:focus-visible) .music-jewel-image {
+    filter: none;
+  }
+}

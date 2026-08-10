@@ -1,6 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 @font-face {
+  font-family: 'AG Book Rounded Medium Outline';
+  src: local('AG Book Rounded Medium Outline'), url('@assets/AG%20Book%20Rounded%20Medium%20Outline.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'ABC ROM';
   src: url('@assets/ABCROM-REGULAR-TRIAL_1782820340626.OTF') format('opentype');
   font-weight: 400;
