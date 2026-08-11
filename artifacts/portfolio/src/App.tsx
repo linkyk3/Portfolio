@@ -11,6 +11,7 @@ import Creations from '@/pages/Creations';
 import Music from './pages/Music';
 import About from '@/pages/CV';
 import WorkInProgress from '@/pages/WorkInProgress';
+import Visualizations from '@/pages/Visualizations';
 import { GlobalNav } from '@/components/GlobalNav';
 
 const queryClient = new QueryClient();
@@ -26,7 +27,9 @@ function Router() {
       <Route path="/music" component={Music} />
       <Route path="/music/mixtapes" component={() => <WorkInProgress title="Mixtapes" />} />
       <Route path="/music/inspiration" component={() => <WorkInProgress title="Inspiration" />} />
-      <Route path="/visualizations" component={() => <WorkInProgress title="Visualizations" />} />
+      <Route path="/visualizations" component={Visualizations} />
+      <Route path="/visualizations/albums" component={() => <WorkInProgress title="Albums" />} />
+      <Route path="/visualizations/map-view" component={() => <WorkInProgress title="Map View" />} />
       <Route path="/blog" component={() => <WorkInProgress title="Blog" />} />
       <Route component={NotFound} />
     </Switch>
