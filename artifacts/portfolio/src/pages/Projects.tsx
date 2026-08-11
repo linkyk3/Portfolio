@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
 import { ThemeToggleInline } from '@/components/ThemeToggle';
+import { FloatingNav } from '@/components/FloatingNav';
 import { BookScene } from '@/components/Book3D';
 import thesisPdfUrl from '@assets/thesisboek_omslag.pdf';
 import thesisFront from '@assets/thesisboek_front.png';
@@ -144,6 +145,7 @@ export default function Projects() {
   return (
     /* Centering shell */
     <div style={{ width: '100vw', display: 'flex', justifyContent: 'center', background: 'var(--background)' }}>
+      <FloatingNav />
       {/* 4:3 column, naturally scrollable */}
       <div
         style={{

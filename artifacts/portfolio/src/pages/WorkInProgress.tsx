@@ -35,7 +35,7 @@ export default function WorkInProgress({ title }: WorkInProgressProps) {
         >
           <div className="flex items-center gap-3">
             <Link href="/" style={f(500, '1.75rem', { letterSpacing: '-0.02em', lineHeight: 1, color: 'inherit', textDecoration: 'none' })}>
-              Seppe Goossens
+              linky2001
             </Link>
 
             <div

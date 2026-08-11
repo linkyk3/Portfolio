@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 
 const NAV_LINKS = [
   { label: 'Selected Works', href: '/projects' },
@@ -26,6 +26,7 @@ const ArrowUp = () => (
 
 export function FloatingNav() {
   const [isVisible, setIsVisible] = useState(false);
+  const [, setLocation] = useLocation();
 
   useEffect(() => {
     function handleScroll() {
@@ -51,7 +52,8 @@ export function FloatingNav() {
         {/* Navigation Button */}
         <button
           className="p-2 rounded-full text-foreground/80 hover:text-accent transition-colors"
-          aria-label="Toggle navigation"
+          onClick={() => setLocation('/')}
+          aria-label="Go to home page"
           data-testid="floating-nav-toggle"
         >
           <LogoMark />

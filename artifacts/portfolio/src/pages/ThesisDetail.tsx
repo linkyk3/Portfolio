@@ -113,6 +113,11 @@ export default function ThesisDetail() {
         <p>Ooit bezat België het dichtste spoor- en tramnetwerk ter wereld. Waar zijn deze sporen gebleven? Hoewel de Belgische diffuse verstedelijking vaak wordt afgedaan as chaos, hanteerde de Nationale Maatschappij van Buurtspoorwegen (NMVB) een specifieke planningslogica waarin staatsdoelstellingen en lokale noden werden verzoend via een territoriaal tramnetwerk. De rol van de buurtspoorwegen in het diffuse verstedelijkingsproces, die een symbiose vormden tussen het nationale macronetwerk en de <i>in-situ</i>-verstedelijking van het lokale weefsel, is dan ook niet te onderschatten. De latere verschuiving van collectief spoorvervoer naar individueel personenvervoer luidde een dissociatie in tussen infrastructuur en verstedelijking. Het resultaat is een dunne stedelijke nevel: een diffuse conditie die zich permanent over het territorium heeft uitgespreid. Vandaag bevindt dit model zich op een kritiek kantelpunt. Negatieve externaliteiten dwingen ons tot een herinterpretatie van het territorium. Welke lessen kunnen we trekken uit een historische en morfologische lezing van de buurtspoorwegen die aan de basis lagen van dit verstedelijkingsproces? Via verschillende cartografische en visuele herinterpretaties, gekoppeld aan archiefonderzoek, worden de historische tracés van het buurtspoorwegennetwerk in Brabant met als rode draad de case study lijn Tervuren-Tienen (de ‘Zwarte Jean’) doorgrond. Dit onderzoek toont aan dat deze relicten nog latent aanwezig zijn en dat deze retroactief hergebruikt kunnen worden voor een duurzamere ruimtelijke transitie.</p>
 
         <ImageGrid>
+          <Image src={`${BASE}thesis/P1500091.jpg`} alt="P1500091" />
+          <Image src={`${BASE}thesis/P1500097.jpg`} alt="P1500097" />
+        </ImageGrid>
+
+        <ImageGrid>
           <Image src={`${BASE}thesis/extract-1.jpg`} alt="Extract 1" />
           <Image src={`${BASE}thesis/extract-3.jpg`} alt="Extract 3" />
         </ImageGrid>

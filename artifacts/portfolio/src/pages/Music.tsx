@@ -101,9 +101,47 @@ export default function Music() {
           className="music-header-row flex items-center flex-shrink-0"
           style={{ justifyContent: 'space-between', paddingLeft: '2rem', paddingRight: '2rem', paddingTop: '1rem', paddingBottom: '1rem' }}
         >
-          <Link href="/" style={f(500, '1.75rem', { letterSpacing: '-0.02em', lineHeight: 1, color: 'inherit', textDecoration: 'none' })}>
-            Seppe Goossens
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/" style={f(500, '1.75rem', { letterSpacing: '-0.02em', lineHeight: 1, color: 'inherit', textDecoration: 'none' })}>
+              linky2001
+            </Link>
+
+            <div
+              className="relative group flex items-center"
+              style={{ lineHeight: 0, paddingRight: '220px', marginRight: '-220px' }}
+            >
+              <div className="hover:text-accent transition-colors" style={{ lineHeight: 0 }}>
+                <svg width="28" height="28" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true" style={{ flexShrink: 0 }}>
+                  <line x1="10" y1="1" x2="10" y2="19" />
+                  <line x1="2" y1="5.5" x2="18" y2="14.5" />
+                  <line x1="18" y1="5.5" x2="2" y2="14.5" />
+                </svg>
+              </div>
+
+              <nav
+                aria-label="Primary navigation"
+                className="absolute flex items-center gap-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-150"
+                style={{ left: '44px', top: '50%', transform: 'translateY(-50%)', whiteSpace: 'nowrap' }}
+              >
+                {[
+                  { label: 'Selected Works', href: '/projects' },
+                  { label: 'Music', href: '/music' },
+                  { label: 'Visualizations', href: '/visualizations' },
+                  { label: 'Blog', href: '/blog' },
+                  { label: 'About', href: '/cv' },
+                ].map(({ label, href }) => (
+                  <Link
+                    key={label}
+                    href={href}
+                    className="text-foreground hover:text-accent transition-colors"
+                    style={f(300, '1.15rem', { letterSpacing: '0.01em' })}
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+          </div>
 
           <div
             style={f(500, 'clamp(1.4rem, 3.2vh, 2.2rem)', {
