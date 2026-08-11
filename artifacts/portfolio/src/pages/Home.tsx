@@ -92,7 +92,7 @@ export default function Home() {
                 { label: 'Music', href: '/music' },
                 { label: 'Visualizations', href: '/visualizations' },
                 { label: 'Blog', href: '/blog' },
-                { label: 'About',          href: '/cv'        },
+                { label: 'About',          href: '/about'     },
               ].map(({ label, href }) => (
                 <Link
                   key={label}
@@ -188,7 +188,7 @@ export default function Home() {
         {[
           { label: 'LinkedIn', href: 'https://www.linkedin.com/in/seppe-goossens-75a8671b4/', testId: 'contact-linkedin', internal: false },
           { label: 'CV',       href: '/cv/cv.pdf',                                  testId: 'contact-cv',        internal: false },
-          { label: 'About',    href: '/cv',                                          testId: 'contact-about',     internal: true },
+          { label: 'About',    href: '/about',                                       testId: 'contact-about',     internal: true },
         ].map(({ label, href, testId, internal }) =>
           internal
             ? <Link key={label} href={href} className="text-foreground/50 hover:text-accent transition-colors" style={f(300, '1rem')} data-testid={testId}>{label}</Link>

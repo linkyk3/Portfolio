@@ -128,7 +128,7 @@ export default function Music() {
                   { label: 'Music', href: '/music' },
                   { label: 'Visualizations', href: '/visualizations' },
                   { label: 'Blog', href: '/blog' },
-                  { label: 'About', href: '/cv' },
+                  { label: 'About', href: '/about' },
                 ].map(({ label, href }) => (
                   <Link
                     key={label}

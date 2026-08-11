@@ -10,6 +10,7 @@ const f = (weight: number, size: string, extra?: React.CSSProperties): React.CSS
 });
 
 const CHANGELOG = [
+  { sha: '2d04e63', date: '15:18 11-08-2026', summary: 'created about page' },
   { sha: '4cd4e09', date: '14:27 11-08-2026', summary: 'music page update and thesis images' },
   { sha: 'c86ecd3', date: '01:50 11-08-2026', summary: 'base music page' },
   { sha: '30ca800', date: '23:13 10-08-2026', summary: 'projects update' },
@@ -24,7 +25,7 @@ const CHANGELOG = [
   { sha: '83dff30', date: '14:48 07-08-2026', summary: 'vercel json move' },
 ] as const;
 
-export default function CV() {
+export default function About() {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -73,7 +74,7 @@ export default function CV() {
                   { label: 'Music', href: '/music' },
                   { label: 'Visualizations', href: '/visualizations' },
                   { label: 'Blog', href: '/blog' },
-                  { label: 'About', href: '/cv' },
+                  { label: 'About', href: '/about' },
                 ].map(({ label, href }) => (
                   <Link
                     key={label}
@@ -111,11 +112,11 @@ export default function CV() {
               </p>
 
               <p className="mt-5 text-foreground/80 text-sm md:text-[15px] leading-7">
-                I’ve always been somewhat of a hoarder because I hate letting things go. But unlike real life, a digital space has no physical limits, so I can hoard as much as I want. :)
+                I’ve always been somewhat of a hoarder because I hate letting things go. But unlike real life, a digital space has no physical limits, so I can hoard as much as I want :).
               </p>
 
               <p className="mt-5 text-foreground/80 text-sm md:text-[15px] leading-7">
-                I put off the idea of creating a personal website for years. But with the recent explosion of AI tools, the barrier to building one got lower and lower. Eventually, as I started my job search, the time was finally right.
+                I put off the idea of creating a personal website for years. But with the recent evolvement of AI tools, the barrier to building one got lower and lower. Eventually, as I started my job search, the time was finally right.
               </p>
 
               <p className="mt-5 text-foreground/80 text-sm md:text-[15px] leading-7">

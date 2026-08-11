@@ -116,7 +116,7 @@ const NAV_LINKS = [
   { label: 'Music', href: '/music' },
   { label: 'Visualizations', href: '/visualizations' },
   { label: 'Blog', href: '/blog' },
-  { label: 'About', href: '/cv' },
+  { label: 'About', href: '/about' },
 ];
 
 const PROJECTS_WITH_DETAIL_PAGE = [

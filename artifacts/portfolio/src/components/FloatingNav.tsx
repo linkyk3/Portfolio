@@ -6,7 +6,7 @@ const NAV_LINKS = [
   { label: 'Music',          href: '/creations' },
   { label: 'Visualizations', href: '/creations' },
   { label: 'Blog',           href: '/creations' },
-  { label: 'About',          href: '/cv'        },
+  { label: 'About',          href: '/about'     },
 ];
 
 const LogoMark = () => (
