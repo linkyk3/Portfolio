@@ -1,125 +1,173 @@
+import { useState } from 'react';
+import { Link } from 'wouter';
+import { ThemeToggleInline } from '@/components/ThemeToggle';
+
+const f = (weight: number, size: string, extra?: React.CSSProperties): React.CSSProperties => ({
+  fontFamily: "'ABC ROM'",
+  fontWeight: weight,
+  fontSize: size,
+  ...extra,
+});
+
+const CHANGELOG = [
+  { sha: '4cd4e09', date: '14:27 11-08-2026', summary: 'music page update and thesis images' },
+  { sha: 'c86ecd3', date: '01:50 11-08-2026', summary: 'base music page' },
+  { sha: '30ca800', date: '23:13 10-08-2026', summary: 'projects update' },
+  { sha: 'f3a9231', date: '21:13 10-08-2026', summary: 'projectpage fixes' },
+  { sha: '9ec1a1f', date: '20:39 10-08-2026', summary: 'Save progress before moving repo location' },
+  { sha: 'f63ff0e', date: '14:21 08-08-2026', summary: 'navbutton fix and cv update' },
+  { sha: '21d39ab', date: '14:08 08-08-2026', summary: 'bug fix + temp pages' },
+  { sha: '9c36ffc', date: '16:36 07-08-2026', summary: 'navbutton fix' },
+  { sha: 'db770d1', date: '15:17 07-08-2026', summary: 'Add Vercel Analytics component' },
+  { sha: '7678581', date: '15:04 07-08-2026', summary: 'Update vite.config.ts' },
+  { sha: '06ba8fe', date: '14:51 07-08-2026', summary: 'Update vite.config.ts' },
+  { sha: '83dff30', date: '14:48 07-08-2026', summary: 'vercel json move' },
+] as const;
+
 export default function CV() {
+  const [hovered, setHovered] = useState(false);
+
   return (
-    <div className="min-h-[100dvh] w-full bg-background pt-32 pb-24 px-8 md:px-16 lg:px-24 max-w-6xl mx-auto flex flex-col gap-16">
-      
-      {/* Header */}
-      <header className="flex flex-col gap-6 border-b border-foreground pb-12">
-        <h1 className="text-4xl md:text-6xl font-sans font-light tracking-tight text-foreground">
-          Seppe Goossens<sup className="font-mono text-sm md:text-xl ml-1 text-muted-foreground">1</sup> · 
-          Urban Planner<sup className="font-mono text-sm md:text-xl ml-1 text-muted-foreground">2</sup> · 
-          Industrial Engineer<sup className="font-mono text-sm md:text-xl ml-1 text-muted-foreground">3</sup>
-        </h1>
-        <div className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase flex gap-4">
-          <span>1 — student</span>
-          <span>2 — spatial systems</span>
-          <span>3 — process optimization</span>
-        </div>
-      </header>
+    <div style={{ width: '100vw', display: 'flex', justifyContent: 'center', background: 'var(--background)' }}>
+      <div
+        style={{
+          width: '100%',
+          maxWidth: 'calc(100vh * 4 / 3)',
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          background: 'var(--background)',
+          color: 'var(--foreground)',
+        }}
+      >
+        <div
+          className="flex items-center flex-shrink-0"
+          style={{ justifyContent: 'space-between', paddingLeft: '2rem', paddingRight: '2rem', paddingTop: '1rem', paddingBottom: '1rem' }}
+        >
+          <div className="flex items-center gap-3">
+            <Link href="/" style={f(500, '1.75rem', { letterSpacing: '-0.02em', lineHeight: 1, color: 'inherit', textDecoration: 'none' })}>
+              Seppe Goossens
+            </Link>
 
-      {/* Two-Column Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border-b border-foreground">
-        
-        {/* Left Column: Education */}
-        <section className="border-b md:border-b-0 md:border-r border-foreground pb-12 md:pb-0 md:pr-12 lg:pr-24 flex flex-col gap-8 pt-8 md:pt-0">
-          <h2 className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Education</h2>
-          
-          <div className="flex flex-col gap-6">
-            <div className="flex gap-4">
-              <span className="font-mono text-xs text-muted-foreground">01</span>
-              <div className="flex flex-col gap-1">
-                <h3 className="font-sans font-medium text-lg">University of Technology</h3>
-                <p className="font-sans text-sm text-foreground/80">B.S. Industrial Engineering</p>
-                <p className="font-mono text-[10px] tracking-widest text-muted-foreground mt-1">2021 — 2025</p>
-              </div>
-            </div>
-
-            <div className="flex gap-4">
-              <span className="font-mono text-xs text-muted-foreground">02</span>
-              <div className="flex flex-col gap-1">
-                <h3 className="font-sans font-medium text-lg">College of Design</h3>
-                <p className="font-sans text-sm text-foreground/80">B.A. Urban Planning</p>
-                <p className="font-mono text-[10px] tracking-widest text-muted-foreground mt-1">2021 — 2025</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Right Column: Skills */}
-        <section className="pt-12 md:pt-0 md:pl-12 lg:pl-24 flex flex-col gap-8 pb-12">
-          <h2 className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Capabilities</h2>
-          
-          <div className="grid grid-cols-2 gap-8">
-            <div className="flex flex-col gap-3">
-              <h3 className="font-mono text-[10px] tracking-widest text-foreground uppercase border-b border-foreground/20 pb-2">GIS & Spatial</h3>
-              <ul className="flex flex-col gap-2 font-sans text-sm">
-                <li className="flex items-center gap-2"><span className="w-1 h-1 bg-foreground"></span> ArcGIS Pro</li>
-                <li className="flex items-center gap-2"><span className="w-1 h-1 bg-foreground"></span> QGIS</li>
-                <li className="flex items-center gap-2"><span className="w-1 h-1 bg-foreground"></span> GeoPandas</li>
-              </ul>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <h3 className="font-mono text-[10px] tracking-widest text-foreground uppercase border-b border-foreground/20 pb-2">CAD & Design</h3>
-              <ul className="flex flex-col gap-2 font-sans text-sm">
-                <li className="flex items-center gap-2"><span className="w-1 h-1 bg-foreground"></span> AutoCAD</li>
-                <li className="flex items-center gap-2"><span className="w-1 h-1 bg-foreground"></span> Rhino 3D</li>
-                <li className="flex items-center gap-2"><span className="w-1 h-1 bg-foreground"></span> Adobe CC</li>
-              </ul>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <h3 className="font-mono text-[10px] tracking-widest text-foreground uppercase border-b border-foreground/20 pb-2">Engineering Tools</h3>
-              <ul className="flex flex-col gap-2 font-sans text-sm">
-                <li className="flex items-center gap-2"><span className="w-1 h-1 bg-foreground"></span> Excel / Solver</li>
-                <li className="flex items-center gap-2"><span className="w-1 h-1 bg-foreground"></span> OR-Tools</li>
-                <li className="flex items-center gap-2"><span className="w-1 h-1 bg-foreground"></span> Arena Simulation</li>
-              </ul>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <h3 className="font-mono text-[10px] tracking-widest text-foreground uppercase border-b border-foreground/20 pb-2">Languages</h3>
-              <ul className="flex flex-col gap-2 font-sans text-sm">
-                <li className="flex items-center gap-2"><span className="w-1 h-1 bg-foreground"></span> Python</li>
-                <li className="flex items-center gap-2"><span className="w-1 h-1 bg-foreground"></span> SQL</li>
-                <li className="flex items-center gap-2"><span className="w-1 h-1 bg-foreground"></span> R</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      {/* Experience Timeline */}
-      <section className="flex flex-col gap-8 pb-24">
-        <h2 className="font-mono text-[10px] tracking-widest text-muted-foreground uppercase">Experience Profile</h2>
-        
-        <div className="flex flex-col">
-          {[
-            { company: "City Transit Authority", role: "Network Planning Intern", date: "May 2024 — Aug 2024", id: "1" },
-            { company: "Apex Manufacturing", role: "Process Optimization Co-op", date: "Jan 2024 — May 2024", id: "2" },
-            { company: "Regional Planning Commission", role: "GIS Research Assistant", date: "Jun 2023 — Dec 2023", id: "3" },
-          ].map((job, idx) => (
-            <div 
-              key={idx} 
-              className="group flex flex-col border-t border-foreground transition-colors duration-200 hover:border-l-2 hover:border-l-accent hover:pl-4 pl-0 py-6"
+            <div
+              className="relative group flex items-center"
+              onMouseEnter={() => setHovered(true)}
+              onMouseLeave={() => setHovered(false)}
+              style={{ lineHeight: 0, paddingRight: '220px', marginRight: '-220px' }}
             >
-              <div className="flex justify-between items-start md:items-center flex-col md:flex-row gap-2">
-                <div className="flex gap-2 items-baseline">
-                  <h3 className="font-sans font-medium text-lg md:text-xl text-foreground">
-                    {job.company}
-                  </h3>
-                  <sup className="font-mono text-xs text-muted-foreground">{job.id}</sup>
-                  <span className="font-sans text-sm text-foreground/60 hidden md:inline ml-2">— {job.role}</span>
-                </div>
-                <div className="font-mono text-xs tracking-widest text-muted-foreground">
-                  {job.date}
-                </div>
+              <div className="hover:text-accent transition-colors" style={{ lineHeight: 0 }}>
+                <svg width="28" height="28" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true" style={{ flexShrink: 0 }}>
+                  <line x1="10" y1="1" x2="10" y2="19" />
+                  <line x1="2" y1="5.5" x2="18" y2="14.5" />
+                  <line x1="18" y1="5.5" x2="2" y2="14.5" />
+                </svg>
               </div>
-              <p className="font-sans text-sm text-foreground/60 md:hidden mt-1">{job.role}</p>
+
+              <nav
+                aria-label="Primary navigation"
+                className="absolute flex items-center gap-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-150"
+                style={{ left: '44px', top: '50%', transform: 'translateY(-50%)', whiteSpace: 'nowrap' }}
+              >
+                {[
+                  { label: 'Selected Works', href: '/projects' },
+                  { label: 'Music', href: '/music' },
+                  { label: 'Visualizations', href: '/visualizations' },
+                  { label: 'Blog', href: '/blog' },
+                  { label: 'About', href: '/cv' },
+                ].map(({ label, href }) => (
+                  <Link
+                    key={label}
+                    href={href}
+                    className="text-foreground hover:text-accent transition-colors"
+                    style={f(300, '1.15rem', { letterSpacing: '0.01em' })}
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </nav>
             </div>
-          ))}
-          <div className="border-t border-foreground w-full h-[1px]"></div>
+          </div>
+
+          <div style={f(500, 'clamp(1.4rem, 3.2vh, 2.2rem)', {
+            letterSpacing: '-0.02em',
+            lineHeight: 1,
+            color: 'transparent',
+            WebkitTextStroke: '1px var(--color-foreground)',
+            textTransform: 'uppercase',
+            whiteSpace: 'nowrap',
+            userSelect: 'none',
+          })}>
+            About
+          </div>
         </div>
-      </section>
+
+        <div className="flex-shrink-0 bg-foreground" style={{ height: '2px', marginLeft: '2rem', marginRight: '2rem' }} />
+
+        <main className="flex-grow grid grid-cols-1 md:grid-cols-2 gap-8" style={{ paddingLeft: '2rem', paddingRight: '2rem', paddingTop: '1rem', minHeight: 0 }}>
+          <div className="flex min-h-0 flex-col">
+            <div className="max-w-3xl text-left">
+              <p className="text-foreground/80 text-sm md:text-[15px] leading-7">
+                I’ve never felt much urge to share every detail of my life on social media, or in real life, for that matter. Instead, I wanted a quiet space (on the web) that is entirely my own: a digital collection of the things that matter to me, shared only with the people who show interest.
+              </p>
+
+              <p className="mt-5 text-foreground/80 text-sm md:text-[15px] leading-7">
+                I’ve always been somewhat of a hoarder because I hate letting things go. But unlike real life, a digital space has no physical limits, so I can hoard as much as I want. :)
+              </p>
+
+              <p className="mt-5 text-foreground/80 text-sm md:text-[15px] leading-7">
+                I put off the idea of creating a personal website for years. But with the recent explosion of AI tools, the barrier to building one got lower and lower. Eventually, as I started my job search, the time was finally right.
+              </p>
+
+              <p className="mt-5 text-foreground/80 text-sm md:text-[15px] leading-7">
+                This site is a home for both my professional work and personal projects, things I’m proud of, experiments I’m running, and hobbies that keep me curious. It’s a snapshot of what’s going on inside my head and what’s keeping me busy.
+              </p>
+
+              <p className="mt-5 text-foreground/80 text-sm md:text-[15px] leading-7">
+                There is no grand end goal here. It’s a perpetual work in progress, and always will be. Maybe I’ll stop updating it one day if I feel like it, maybe not, who knows?
+              </p>
+
+              <p className="mt-5 text-foreground/80 text-sm md:text-[15px] leading-7">
+                Thanks for stopping by.
+              </p>
+
+              <p className="mt-1 text-foreground/60 text-xs md:text-sm leading-6">
+                11/08/2026
+              </p>
+            </div>
+
+            <div className="mt-auto mb-2 text-left text-foreground/65 text-xs md:text-sm leading-6">
+              <p>
+                The site was originally made using Replit, but after discovering how quickly the credits burned through, I ported it over to a GitHub repo to work on locally using VS Code and the Gemini plugin. Gemini worked alright, but it took a while to load and struggled to understand the full scope of the webpage and its separate parts. I eventually switched over to GitHub Copilot, which has served me well so far.
+              </p>
+              <p className="mt-4">
+                The site is hosted via Vercel.
+              </p>
+            </div>
+          </div>
+
+          <section aria-label="Project changelog" className="changelog-scroll min-h-0 px-1 md:justify-self-end w-full max-w-2xl" style={{ overflowY: 'auto' }}>
+            <p className="text-right text-foreground/75 text-sm md:text-base font-medium tracking-[0.08em]">Changelog</p>
+            <div className="mt-3 flex flex-col gap-2.5 pb-2">
+              {CHANGELOG.map((entry) => (
+                <div key={entry.sha} className="text-right">
+                  <p className="text-foreground/70 text-[11px] md:text-xs leading-5">
+                    <span className="font-mono">{entry.date}</span>
+                    <span className="mx-2 text-foreground/40">/</span>
+                    <span className="font-mono text-foreground/60">{entry.sha}</span>
+                  </p>
+                  <p className="text-foreground/75 text-xs md:text-sm leading-5">{entry.summary}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        </main>
+
+        <div className="flex-shrink-0 bg-foreground" style={{ height: '2px', marginLeft: '2rem', marginRight: '2rem' }} />
+
+        <div className="flex flex-shrink-0 items-center justify-end px-8 py-2.5">
+          <ThemeToggleInline />
+        </div>
+      </div>
     </div>
   );
 }

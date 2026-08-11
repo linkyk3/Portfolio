@@ -9,6 +9,7 @@ import Projects from '@/pages/Projects';
 import ProjectDetail from '@/pages/ProjectDetail';
 import Creations from '@/pages/Creations';
 import Music from './pages/Music';
+import CV from '@/pages/CV';
 import WorkInProgress from '@/pages/WorkInProgress';
 import { GlobalNav } from '@/components/GlobalNav';
 
@@ -18,7 +19,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
-      <Route path="/cv" component={() => <WorkInProgress title="About" />} />
+      <Route path="/cv" component={CV} />
       <Route path="/projects" component={Projects} />
       <Route path="/projects/:id" component={ProjectDetail} />
       <Route path="/creations" component={Creations} />
