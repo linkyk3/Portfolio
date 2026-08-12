@@ -455,16 +455,18 @@ const getVisibleCanvasHeight = (items: DisplayImage[], minHeight: number, hasMor
 };
 
 const Visualizations = () => {
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [allImages, setAllImages] = useState<GalleryAsset[]>([]);
-  const [visibleCount, setVisibleCount] = useState(0);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isBatchLoading, setIsBatchLoading] = useState(false);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
   const [canvasWidth, setCanvasWidth] = useState(0);
 
   const sentinelRef = useRef<HTMLDivElement>(null);
   const galleryViewportRef = useRef<HTMLDivElement>(null);
+  const batchLoadingRef = useRef(false);
 
   // 1. Fetch and shuffle all images on initial load
   useEffect(() => {
@@ -474,10 +476,8 @@ const Visualizations = () => {
       const loadedModules = await Promise.all(imagePaths.map(path => IMAGE_MODULES[path]()));
       const urls = loadedModules.map(module => (module as any).default).filter(Boolean);
 
-      const withMetadata = await Promise.all(urls.map(loadImageMetadata));
-      const shuffled = shuffleArray(withMetadata);
-      setAllImages(shuffled);
-      setVisibleCount(0);
+      setImageUrls(shuffleArray(urls));
+      setAllImages([]);
       setIsLoading(false);
     };
 
@@ -507,8 +507,8 @@ const Visualizations = () => {
   }, []);
 
   const scatterLayout = useMemo(() => buildScatterLayout(allImages, canvasWidth), [allImages, canvasWidth]);
-  const displayedImages = useMemo(() => scatterLayout.items.slice(0, visibleCount), [scatterLayout.items, visibleCount]);
-  const hasMore = visibleCount < scatterLayout.items.length;
+  const displayedImages = scatterLayout.items;
+  const hasMore = allImages.length < imageUrls.length;
   const galleryMinHeight = canvasWidth >= 980 ? 760 : canvasWidth >= 640 ? 620 : 420;
   const visibleCanvasHeight = useMemo(
     () => getVisibleCanvasHeight(displayedImages, galleryMinHeight, hasMore),
@@ -517,17 +517,37 @@ const Visualizations = () => {
 
   // 2. Load more images function
   const loadMoreImages = useCallback(() => {
-    if (isLoading || scatterLayout.items.length === 0 || visibleCount >= scatterLayout.items.length) return;
+    if (isLoading || batchLoadingRef.current || imageUrls.length === 0 || allImages.length >= imageUrls.length) return;
 
-    setVisibleCount(previousCount => Math.min(previousCount + BATCH_SIZE, scatterLayout.items.length));
-  }, [isLoading, scatterLayout.items.length, visibleCount]);
+    const startIndex = allImages.length;
+    const batchUrls = imageUrls.slice(startIndex, startIndex + BATCH_SIZE);
+    if (batchUrls.length === 0) return;
+
+    batchLoadingRef.current = true;
+    setIsBatchLoading(true);
+
+    Promise.all(batchUrls.map(loadImageMetadata))
+      .then(batchAssets => {
+        setAllImages(previousImages => {
+          if (previousImages.length !== startIndex) {
+            return previousImages;
+          }
+
+          return [...previousImages, ...batchAssets];
+        });
+      })
+      .finally(() => {
+        batchLoadingRef.current = false;
+        setIsBatchLoading(false);
+      });
+  }, [allImages.length, imageUrls, isLoading]);
 
   // 3. Initial load and infinite scroll observer
   useEffect(() => {
-    if (!isLoading && scatterLayout.items.length > 0 && visibleCount === 0) {
-      setVisibleCount(Math.min(BATCH_SIZE, scatterLayout.items.length));
+    if (!isLoading && imageUrls.length > 0 && allImages.length === 0) {
+      loadMoreImages();
     }
-  }, [isLoading, scatterLayout.items.length, visibleCount]);
+  }, [allImages.length, imageUrls.length, isLoading, loadMoreImages]);
 
   useEffect(() => {
     if (!hasMore) return;
@@ -584,7 +604,7 @@ const Visualizations = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const allImagesLoaded = !hasMore && displayedImages.length >= scatterLayout.items.length && scatterLayout.items.length > 0;
+  const allImagesLoaded = !hasMore && allImages.length === imageUrls.length && imageUrls.length > 0;
   const expandBottomBars = allImagesLoaded && isScrolledToBottom;
 
   const globalBlur: React.CSSProperties = hoveredId
