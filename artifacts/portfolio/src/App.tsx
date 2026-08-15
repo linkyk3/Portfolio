@@ -9,7 +9,7 @@ import Projects from '@/pages/Projects';
 import ProjectDetail from '@/pages/ProjectDetail';
 import Creations from '@/pages/Creations';
 import Music from './pages/Music';
-import About from '@/pages/CV';
+import About from '@/pages/About';
 import WorkInProgress from '@/pages/WorkInProgress';
 import Visualizations from '@/pages/Visualizations';
 import { GlobalNav } from '@/components/GlobalNav';

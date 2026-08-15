@@ -251,6 +251,23 @@ const styles: { [key: string]: React.CSSProperties } = {
     WebkitBackdropFilter: 'blur(18px)',
     cursor: 'pointer',
   },
+  lightboxArrow: {
+    position: 'absolute',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    background: 'rgba(10, 10, 10, 0.4)',
+    color: 'white',
+    border: 'none',
+    borderRadius: '50%',
+    width: '44px',
+    height: '44px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    cursor: 'pointer',
+    transition: 'background 0.2s ease',
+    zIndex: 1001,
+  },
   lightboxContent: {
     position: 'relative',
     width: '100%',
@@ -286,7 +303,18 @@ const styles: { [key: string]: React.CSSProperties } = {
 
 // --- Component Interfaces ---
 const IMAGE_MODULES = import.meta.glob('/public/visualisations/*.{png,jpg,jpeg,gif,svg}');
-const BATCH_SIZE = 8;
+const BATCH_SIZE = 4;
+const PLACEHOLDER_IMAGE_SRC = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(`
+  <svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+    <rect width="800" height="600" fill="#ece7e2"/>
+    <rect x="60" y="60" width="680" height="480" rx="18" fill="#f6f2ee"/>
+    <circle cx="250" cy="260" r="82" fill="#d9d2cc"/>
+    <rect x="360" y="200" width="270" height="28" rx="14" fill="#d9d2cc"/>
+    <rect x="360" y="250" width="220" height="20" rx="10" fill="#ddd5cf"/>
+    <rect x="360" y="290" width="240" height="20" rx="10" fill="#ddd5cf"/>
+    <rect x="360" y="330" width="200" height="20" rx="10" fill="#ddd5cf"/>
+  </svg>
+`)}`;
 
 interface GalleryAsset {
   src: string;
@@ -457,16 +485,28 @@ const getVisibleCanvasHeight = (items: DisplayImage[], minHeight: number, hasMor
 const Visualizations = () => {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [allImages, setAllImages] = useState<GalleryAsset[]>([]);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isBatchLoading, setIsBatchLoading] = useState(false);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
   const [canvasWidth, setCanvasWidth] = useState(0);
+  const [isLeftArrowHovered, setIsLeftArrowHovered] = useState(false);
+  const [isRightArrowHovered, setIsRightArrowHovered] = useState(false);
+  const [loadedImageIds, setLoadedImageIds] = useState<Set<string>>(new Set());
 
   const sentinelRef = useRef<HTMLDivElement>(null);
   const galleryViewportRef = useRef<HTMLDivElement>(null);
+  const imageRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const batchLoadingRef = useRef(false);
+
+  const scatterLayout = useMemo(() => buildScatterLayout(allImages, canvasWidth), [allImages, canvasWidth]);
+  const displayedImages = scatterLayout.items;
+
+  const selectedImage = useMemo(() => {
+    if (selectedImageIndex === null || !displayedImages) return null;
+    return displayedImages[selectedImageIndex]?.src ?? null;
+  }, [selectedImageIndex, displayedImages]);
 
   // 1. Fetch and shuffle all images on initial load
   useEffect(() => {
@@ -506,8 +546,6 @@ const Visualizations = () => {
     };
   }, []);
 
-  const scatterLayout = useMemo(() => buildScatterLayout(allImages, canvasWidth), [allImages, canvasWidth]);
-  const displayedImages = scatterLayout.items;
   const hasMore = allImages.length < imageUrls.length;
   const galleryMinHeight = canvasWidth >= 980 ? 760 : canvasWidth >= 640 ? 620 : 420;
   const visibleCanvasHeight = useMemo(
@@ -591,21 +629,81 @@ const Visualizations = () => {
   }, []);
 
   // 4. Lightbox logic
-  const handleImageClick = (src: string) => setSelectedImage(src);
-  const handleCloseLightbox = () => setSelectedImage(null);
+  const handleImageClick = (src: string) => {
+    const index = displayedImages.findIndex(img => img.src === src);
+    if (index !== -1) {
+      setSelectedImageIndex(index);
+    }
+  };
+  const handleCloseLightbox = () => setSelectedImageIndex(null);
+
+  const handleNextImage = useCallback(() => {
+    if (selectedImageIndex === null) return;
+    const nextIndex = (selectedImageIndex + 1) % displayedImages.length;
+    setSelectedImageIndex(nextIndex);
+  }, [selectedImageIndex, displayedImages.length]);
+
+  const handlePrevImage = useCallback(() => {
+    if (selectedImageIndex === null) return;
+    const prevIndex = (selectedImageIndex - 1 + displayedImages.length) % displayedImages.length;
+    setSelectedImageIndex(prevIndex);
+  }, [selectedImageIndex, displayedImages.length]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         handleCloseLightbox();
+      } else if (e.key === 'ArrowLeft') {
+        handlePrevImage();
+      } else if (e.key === 'ArrowRight') {
+        handleNextImage();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [handlePrevImage, handleNextImage]);
 
   const allImagesLoaded = !hasMore && allImages.length === imageUrls.length && imageUrls.length > 0;
   const expandBottomBars = allImagesLoaded && isScrolledToBottom;
+
+  useEffect(() => {
+    if (displayedImages.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      entries => {
+        setLoadedImageIds(previousLoaded => {
+          const nextLoaded = new Set(previousLoaded);
+
+          entries.forEach(entry => {
+            const imageId = entry.target.getAttribute('data-image-id');
+            if (!imageId) return;
+
+            if (entry.isIntersecting) {
+              nextLoaded.add(imageId);
+            }
+          });
+
+          return nextLoaded;
+        });
+      },
+      {
+        root: null,
+        rootMargin: '200px 0px 200px 0px',
+        threshold: 0.01,
+      }
+    );
+
+    displayedImages.forEach(image => {
+      const node = imageRefs.current[image.id];
+      if (node) {
+        observer.observe(node);
+      }
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [displayedImages]);
 
   const globalBlur: React.CSSProperties = hoveredId
     ? { filter: 'blur(3px)', opacity: 0.34, transition: 'filter 0.24s ease, opacity 0.24s ease' }
@@ -686,6 +784,7 @@ const Visualizations = () => {
                 >
                 {Array.isArray(displayedImages) && displayedImages.map((image) => {
                   const isHovered = hoveredId === image.id;
+                  const isLoaded = loadedImageIds.has(image.id);
 
                   const wrapperStyle: React.CSSProperties = {
                     ...styles.imageWrapper,
@@ -700,17 +799,29 @@ const Visualizations = () => {
                   const imageStyle: React.CSSProperties = {
                     ...styles.image,
                     filter: isHovered ? 'var(--project-drop-shadow-hover)' : 'var(--project-drop-shadow)',
+                    opacity: isLoaded ? 1 : 0.7,
+                    backgroundColor: '#efe9e4',
                   };
 
                   return (
                     <div
                       key={image.id}
+                      ref={element => {
+                        imageRefs.current[image.id] = element;
+                      }}
+                      data-image-id={image.id}
                       style={wrapperStyle}
                       onClick={() => handleImageClick(image.src)}
                       onMouseEnter={() => setHoveredId(image.id)}
                       onMouseLeave={() => setHoveredId(null)}
                     >
-                      <img src={image.src} alt="Visualization" style={imageStyle} />
+                      <img
+                        src={isLoaded ? image.src : PLACEHOLDER_IMAGE_SRC}
+                        alt="Visualization"
+                        loading="lazy"
+                        decoding="async"
+                        style={imageStyle}
+                      />
                     </div>
                   );
                 })}
@@ -758,6 +869,19 @@ const Visualizations = () => {
 
       {selectedImage && (
         <div style={styles.lightboxOverlay} onClick={handleCloseLightbox}>
+          <button
+            style={{ ...styles.lightboxArrow, left: '2rem' }}
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePrevImage();
+            }}
+            onMouseEnter={() => setIsLeftArrowHovered(true)}
+            onMouseLeave={() => setIsLeftArrowHovered(false)}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={isLeftArrowHovered ? '#EF4444' : 'white'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
           <div style={styles.lightboxContent}>
             <div style={styles.lightboxImageWrap} onClick={(e) => e.stopPropagation()}>
               <img
@@ -767,6 +891,19 @@ const Visualizations = () => {
               />
             </div>
           </div>
+          <button
+            style={{ ...styles.lightboxArrow, right: '2rem' }}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNextImage();
+            }}
+            onMouseEnter={() => setIsRightArrowHovered(true)}
+            onMouseLeave={() => setIsRightArrowHovered(false)}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={isRightArrowHovered ? '#EF4444' : 'white'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
         </div>
       )}
     </>
