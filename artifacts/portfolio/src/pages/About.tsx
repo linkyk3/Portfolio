@@ -15,12 +15,12 @@ export default function About() {
   const [hovered, setHovered] = useState(false);
 
   return (
-    <div style={{ width: '100vw', display: 'flex', justifyContent: 'center', background: 'var(--background)' }}>
+    <div className="h-screen w-screen overflow-hidden" style={{ display: 'flex', justifyContent: 'center', background: 'var(--background)' }}>
       <div
+        className="h-full overflow-hidden"
         style={{
           width: '100%',
           maxWidth: 'calc(100vh * 4 / 3)',
-          minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
           background: 'var(--background)',
@@ -90,7 +90,7 @@ export default function About() {
 
         <div className="flex-shrink-0 bg-foreground" style={{ height: '2px', marginLeft: '2rem', marginRight: '2rem' }} />
 
-        <main className="flex-grow grid grid-cols-1 md:grid-cols-2 gap-8" style={{ paddingLeft: '2rem', paddingRight: '2rem', paddingTop: '1rem', minHeight: 0 }}>
+        <main className="flex-grow min-h-0 overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-8" style={{ paddingLeft: '2rem', paddingRight: '2rem', paddingTop: '1rem', paddingBottom: '1rem' }}>
           <div className="flex min-h-0 flex-col">
             <div className="max-w-3xl text-left">
               <p className="text-foreground/80 text-sm md:text-[15px] leading-7">
@@ -127,12 +127,12 @@ export default function About() {
                 The site was originally made using Replit, but after discovering how quickly the credits burned through, I ported it over to a GitHub repo to work on locally using VS Code and the Gemini plugin. Gemini worked alright, but it took a while to load and struggled to understand the full scope of the webpage and its separate parts. I eventually switched over to GitHub Copilot, which has served me well so far.
               </p>
               <p className="mt-4">
-                The site is hosted via Vercel.
+                The site is hosted via Vercel and uses Cloudfare R2 for storage.
               </p>
             </div>
           </div>
 
-          <section aria-label="Project changelog" className="changelog-scroll min-h-0 px-1 md:justify-self-end w-full max-w-2xl" style={{ overflowY: 'scroll' }}>
+          <section aria-label="Project changelog" className="changelog-scroll min-h-0 h-full px-1 md:justify-self-end w-full max-w-2xl" style={{ overflowY: 'auto' }}>
             <p className="text-right text-foreground/75 text-sm md:text-base font-medium tracking-[0.08em]">Changelog</p>
             <div className="mt-3 flex flex-col gap-2.5 pb-2">
               {CHANGELOG.map((entry) => (
