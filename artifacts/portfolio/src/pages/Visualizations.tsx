@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Link } from 'wouter';
 import { ThemeToggleInline } from '@/components/ThemeToggle';
 import { FloatingNav } from '@/components/FloatingNav';
+import { r2Url } from '@/lib/r2';
 
 // --- Shared Layout Primitives ---
 
@@ -40,10 +41,7 @@ const NAV_LINKS = [
   { label: 'About', href: '/about' },
 ];
 
-const VISUALIZATION_SUBNAV = [
-  { label: 'Albums', href: '/visualizations/albums' },
-  { label: 'Map View', href: '/visualizations/map-view' },
-];
+const VISUALIZATION_SUBNAV = [{ label: 'Collections', href: '/visualizations/collections' }];
 
 // --- Helper Functions ---
 
@@ -302,7 +300,45 @@ const styles: { [key: string]: React.CSSProperties } = {
 };
 
 // --- Component Interfaces ---
-const IMAGE_MODULES = import.meta.glob('/public/visualisations/*.{png,jpg,jpeg,gif,svg}');
+const pad2 = (n: number) => String(n).padStart(2, '0');
+
+// Exact filenames mirrored from the R2 visualisations/mainpage/ bucket folder.
+const VISUALISATION_IMAGE_NAMES: string[] = [
+  '3.webp',
+  'bergen-1.webp', 'bergen.webp',
+  ...Array.from({ length: 35 }, (_, i) => `BosWinter25-${pad2(i + 1)}.webp`),
+  'col1.webp',
+  'kamikochi.webp',
+  'osaka toren-1.webp', 'osaka toren-2-2.webp', 'osaka toren-2.webp', 'osaka toren.webp',
+  'P1390076.webp', 'P1390150.webp', 'P1390156.webp',
+  'P1470794.webp', 'P1470803.webp', 'P1470810.webp',
+  'P1480060.webp', 'P1480096.webp', 'P1480139.webp', 'P1480142.webp', 'P1480166.webp',
+  'P1480174.webp', 'P1480180.webp', 'P1480265.webp', 'P1480303.webp', 'P1480312.webp',
+  'P1480316.webp', 'P1480326.webp', 'P1480454.webp', 'P1480469.webp', 'P1480475.webp',
+  'P1480482.webp', 'P1480501.webp', 'P1480511.webp', 'P1480536.webp', 'P1480545.webp',
+  'P1480549.webp', 'P1480556.webp', 'P1480558.webp', 'P1480564.webp', 'P1480575.webp',
+  'P1480576.webp', 'P1480615.webp', 'P1480616.webp', 'P1480617.webp', 'P1480618.webp',
+  'P1480621.webp', 'P1480635.webp', 'P1480669.webp', 'P1480680.webp', 'P1480688.webp',
+  'P1480690.webp', 'P1480701.webp', 'P1480705.webp', 'P1480715.webp', 'P1480726.webp',
+  'P1480727.webp', 'P1480731.webp', 'P1480742.webp', 'P1480764.webp', 'P1480766.webp',
+  'P1480769.webp', 'P1480788-2.webp', 'P1480801.webp',
+  'P1490038.webp', 'P1490043.webp', 'P1490191.webp', 'P1490204.webp', 'P1490210.webp',
+  'P1490232.webp', 'P1490241.webp', 'P1490243.webp', 'P1490244.webp', 'P1490273.webp',
+  'P1490286.webp', 'P1490289.webp', 'P1490293.webp', 'P1490296.webp', 'P1490297.webp',
+  'P1490298.webp', 'P1490299.webp', 'P1490304.webp', 'P1490313.webp', 'P1490335.webp',
+  'P1490343.webp', 'P1490346.webp', 'P1490358.webp', 'P1490364.webp', 'P1490370.webp',
+  'P1490387.webp', 'P1490407.webp', 'P1490414.webp', 'P1490416.webp', 'P1490478.webp',
+  'P1490489.webp', 'P1490499.webp', 'P1490542.webp',
+  'rodin.webp',
+  ...Array.from({ length: 8 }, (_, i) => `shadow${i + 1}.webp`),
+  'tempel.webp',
+  'test.webp',
+  'Untitled-3.webp',
+  ...Array.from({ length: 23 }, (_, i) => `veldwinter26-${pad2(i + 1)}.webp`),
+];
+
+const VISUALISATION_IMAGE_URLS = VISUALISATION_IMAGE_NAMES.map(name => r2Url(`visualisations/mainpage/${name}`));
+
 const BATCH_SIZE = 4;
 const PLACEHOLDER_IMAGE_SRC = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(`
   <svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
@@ -489,6 +525,7 @@ const Visualizations = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isBatchLoading, setIsBatchLoading] = useState(false);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [topNavHovered, setTopNavHovered] = useState(false);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
   const [canvasWidth, setCanvasWidth] = useState(0);
   const [isLeftArrowHovered, setIsLeftArrowHovered] = useState(false);
@@ -499,6 +536,25 @@ const Visualizations = () => {
   const galleryViewportRef = useRef<HTMLDivElement>(null);
   const imageRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const batchLoadingRef = useRef(false);
+  const hideNavTimeout = useRef<number | null>(null);
+
+  const showTopNav = () => {
+    if (hideNavTimeout.current !== null) {
+      window.clearTimeout(hideNavTimeout.current);
+      hideNavTimeout.current = null;
+    }
+    setTopNavHovered(true);
+  };
+
+  const hideTopNav = () => {
+    if (hideNavTimeout.current !== null) {
+      window.clearTimeout(hideNavTimeout.current);
+    }
+    hideNavTimeout.current = window.setTimeout(() => {
+      setTopNavHovered(false);
+      hideNavTimeout.current = null;
+    }, 150);
+  };
 
   const scatterLayout = useMemo(() => buildScatterLayout(allImages, canvasWidth), [allImages, canvasWidth]);
   const displayedImages = scatterLayout.items;
@@ -510,18 +566,10 @@ const Visualizations = () => {
 
   // 1. Fetch and shuffle all images on initial load
   useEffect(() => {
-    const fetchAndPrepareImages = async () => {
-      setIsLoading(true);
-      const imagePaths = Object.keys(IMAGE_MODULES);
-      const loadedModules = await Promise.all(imagePaths.map(path => IMAGE_MODULES[path]()));
-      const urls = loadedModules.map(module => (module as any).default).filter(Boolean);
-
-      setImageUrls(shuffleArray(urls));
-      setAllImages([]);
-      setIsLoading(false);
-    };
-
-    fetchAndPrepareImages();
+    setIsLoading(true);
+    setImageUrls(shuffleArray(VISUALISATION_IMAGE_URLS));
+    setAllImages([]);
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
@@ -730,15 +778,19 @@ const Visualizations = () => {
               </Link>
 
               <div
-                className="group"
-                style={styles.logoNavGroup}
-                onMouseEnter={() => setHoveredId('menu')}
-                onMouseLeave={() => setHoveredId(null)}
+                style={{ ...styles.logoNavGroup, paddingRight: '42rem', marginRight: '-42rem' }}
+                onMouseEnter={showTopNav}
+                onMouseLeave={hideTopNav}
               >
-                <div className="hover:text-accent transition-colors" style={{ lineHeight: 0 }}>
+                <div className="hover:text-accent transition-colors" style={{ lineHeight: 0, paddingRight: '0.75rem' }}>
                   <LogoMark />
                 </div>
-                <nav aria-label="Primary navigation" style={styles.logoNavMenu} className="group-hover:opacity-100 group-hover:pointer-events-auto">
+                <nav 
+                  aria-label="Primary navigation"
+                  style={{ ...styles.logoNavMenu, opacity: topNavHovered ? 1 : 0, pointerEvents: topNavHovered ? 'auto' : 'none' }}
+                  onMouseEnter={showTopNav}
+                  onMouseLeave={hideTopNav}
+                >
                   {NAV_LINKS.map(({ label, href }) => (
                     <Link
                       key={label}

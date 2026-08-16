@@ -3,10 +3,14 @@ import { Link } from 'wouter';
 import { ThemeToggleInline } from '@/components/ThemeToggle';
 import { FloatingNav } from '@/components/FloatingNav';
 import { BookScene } from '@/components/Book3D';
-import thesisPdfUrl from '@assets/thesisboek_omslag.pdf';
-import thesisFront from '@assets/thesisboek_front.png';
-import thesisBack from '@assets/thesisboek_back.png';
-import thesisSide from '@assets/thesisboek_side.png';
+import { r2Url } from '@/lib/r2';
+
+// Served from public/works (same-origin) instead of R2: WebGL textures need CORS headers, which the R2 bucket doesn't send.
+const BOOK_BASE = import.meta.env.BASE_URL;
+const thesisPdfUrl = `${BOOK_BASE}works/thesisboek_omslag.pdf`;
+const thesisFront = `${BOOK_BASE}works/thesisboek_front.webp`;
+const thesisBack = `${BOOK_BASE}works/thesisboek_back.webp`;
+const thesisSide = `${BOOK_BASE}works/thesisboek_side.png`;
 
 /* ── Shared primitives ── */
 const LogoMark = () => (
@@ -34,7 +38,7 @@ const PROJECTS = [
     id:    'p001',
     title: 'De buurtspoorwegen in Brabant',
     desc:  'Een historisch-morfologische lezing van het diffuse verstedelijkingsproces. (NL).',
-    img:   'thesisboek.png',
+    img:   'thesisboek.webp',
     ratio: '4157 / 5906',
     date:  'Master thesis STeR* 2025–2026.',
   },
@@ -42,7 +46,7 @@ const PROJECTS = [
     id:    'p002',
     title: 'Design Studio',
     desc:  'Positive Energy Districts in Intermediate Territories: the Case of Pajottenland.',
-    img:   'pen-network.jpeg',
+    img:   'pen-network.webp',
     ratio: '4000 / 3000',
     date:  'Design Studio 2026',
   },
@@ -50,34 +54,34 @@ const PROJECTS = [
     id:    'p004',
     title: 'Ruimtelijk Ontwerp',
     desc:  'Masterplan Ossegem Station. (NL).',
-    img:   'ruimtelijk-ontwerp.png',
+    img:   'ruimtelijk-ontwerp.webp',
     ratio: '9921 / 7016',
     date:  'Ruimtelijk Ontwerp 2025',
-    externalUrl: `${BASE}works/ruimtelijk-ontwerp.pdf`,
+    externalUrl: r2Url('selected-works/works/ruimtelijk-ontwerp.pdf'),
   },
   {
     id:    'p009',
     title: 'Design Of An Electronic Control Unit With Integrated Dashboard For A Formula Student Race Car',
     desc:  'Master thesis Industrial Engineering Electronics-ICT - Embedded Systems, VUBRacing',
-    img:   'ma_iw.png',
+    img:   'ma_iw.webp',
     ratio: '1 / 1',
     date:  'Master thesis IW 2023–2024',
-    externalUrl: `${BASE}works/ma_iw.pdf`,
+    externalUrl: r2Url('selected-works/works/ma_iw.pdf'),
   },
   {
     id:    'p003',
     title: 'The Landscape as a Unifying Model?',
     desc:  'The Fietssnelwegen Network and the Friction Between Landscape Urbanism and Engineering.',
-    img:   'lu-paper.png',
+    img:   'lu-paper.webp',
     ratio: '4157 / 5906',
     date:  'Landscape Urbanism 2026',
-    externalUrl: `${BASE}works/lu-paper.pdf`,
+    externalUrl: r2Url('selected-works/works/lu-paper.pdf'),
   },
   {
     id:    'p005',
     title: 'Excursion 2026 MILAN',
     desc:  'VUB MA STeR* – Video by Nette Sneyers and Seppe Goossens.',
-    img:   'excursie.png',
+    img:   'excursie.webp',
     ratio: '2560 / 1440',
     date:  'Excursion 2026',
     externalUrl: 'https://youtu.be/NPc29MOOhgc?si=uw_RoZn2H2unnMWN',
@@ -86,28 +90,28 @@ const PROJECTS = [
     id:    'p008',
     title: 'Is Homeownership Reaching its Limits?',
     desc:  "A Historical and Contemporary Review of Path Dependency in Belgium's Housing Landscape.",
-    img:   'housing-paper.png',
+    img:   'housing-paper.webp',
     ratio: '4961 / 7016',
     date:  'Housing 2025',
-    externalUrl: `${BASE}works/housing-paper.pdf`,
+    externalUrl: r2Url('selected-works/works/housing-paper.pdf'),
   },
   {
     id:    'p006',
     title: 'Methoden en Technieken: Ruimtelijke en Morfologische Analyse',
     desc:  'Mahatma Gandhi – Master Stedenbouw en Ruimtelijke Planning. (NL).',
-    img:   'mt-rm.png',
+    img:   'mt-rm.webp',
     ratio: '5906 / 4157',
     date:  'Methoden en Technieken: Ruimtelijke en Morfologische Analyse 2024',
-    externalUrl: `${BASE}works/mt-rm.pdf`,
+    externalUrl: r2Url('selected-works/works/mt-rm.pdf'),
   },
   {
     id:    'p007',
     title: 'Frictie tussen beleid en beleving',
     desc:  'Over parkeren en het ruimtelijke spanningsveld op de grens tussen Molenbeek en Koekelberg. (NL).',
-    img:   'mt-sr.png',
+    img:   'mt-sr.webp',
     ratio: '4961 / 7016',
     date:  'Methoden en Technieken: Sociaal-Ruimtelijke Analyse 2024–2025',
-    externalUrl: `${BASE}works/mt-sr.pdf`,
+    externalUrl: r2Url('selected-works/works/mt-sr.pdf'),
   },
 ] as const;
 
@@ -269,7 +273,7 @@ export default function Projects() {
                         <BookScene frontImg={thesisFront} backImg={thesisBack} spineImg={thesisSide} />
                       </div>
                     ) : (
-                      <img src={`${BASE}works/${p.img}`} alt={p.title} className="project-thumbnail" style={{
+                      <img src={r2Url(`selected-works/works/${p.img}`)} alt={p.title} className="project-thumbnail" style={{
                           width: '100%',
                           height: '100%',
                           objectFit: 'contain',

@@ -1,6 +1,7 @@
 import { Image, ImageGrid, ImageCollage } from './ProjectDetail';
 import { useState, useEffect, useRef } from 'react';
 import { FloatingNav } from '@/components/FloatingNav';
+import { r2Url } from '@/lib/r2';
 
 // Inlined Lightbox component to resolve import issues
 function Lightbox({ src, onClose }: { src: string | null; onClose: () => void; }) {
@@ -75,90 +76,93 @@ function Lightbox({ src, onClose }: { src: string | null; onClose: () => void; }
   );
 }
 
-const BASE = import.meta.env.BASE_URL;
+const ds1 = (name: string) => r2Url(`selected-works/design_studio/part1/${name}`);
+const ds2 = (name: string) => r2Url(`selected-works/design_studio/part2/${name}`);
 
 const A_SERIES_IMAGES = [
-  `${BASE}design_studio/part1/a1.jpg`,
-  `${BASE}design_studio/part1/a2 (1).jpg`,
-  `${BASE}design_studio/part1/a3.jpg`,
-  `${BASE}design_studio/part1/a4.jpg`,
+  ds1('a1.webp'),
+  ds1('a2.webp'),
+  ds1('a3.webp'),
+  ds1('a4.webp'),
 ];
 const B_SERIES_IMAGES = [
-  `${BASE}design_studio/part1/b1.jpg`,
-  `${BASE}design_studio/part1/b2.jpg`,
-  `${BASE}design_studio/part1/b3.jpg`,
-  `${BASE}design_studio/part1/b4.jpg`,
+  ds1('b1.webp'),
+  ds1('b2.webp'),
+  ds1('b3.webp'),
+  ds1('b4.webp'),
 ];
 
 const SESSION_IMAGES = [
-  `${BASE}design_studio/part1/session5_A3 conv 0.jpg`,
-  `${BASE}design_studio/part1/session5_A3 conv 1.jpg`,
-  `${BASE}design_studio/part1/session5_A3 conv 2.jpg`,
-  `${BASE}design_studio/part1/session5_A3 conv 3.jpg`,
-  `${BASE}design_studio/part1/session5_A3 conv 4.jpg`,
-  `${BASE}design_studio/part1/session5_A3 conv 5.jpg`,
-  `${BASE}design_studio/part1/session5_A3 conv 6.jpg`,
-  `${BASE}design_studio/part1/session5_A3 conv 8.png`,
+  ds1('session5_A3 conv 0.webp'),
+  ds1('session5_A3 conv 1.webp'),
+  ds1('session5_A3 conv 2.webp'),
+  ds1('session5_A3 conv 3.webp'),
+  ds1('session5_A3 conv 4.webp'),
+  ds1('session5_A3 conv 5.webp'),
+  ds1('session5_A3 conv 6.webp'),
+  ds1('session5_A3 conv 8.webp'),
 ];
 
 const SPECIAL_IMAGES = [
-  `${BASE}design_studio/part1/session5_A3 conv 7.jpg`,
-  `${BASE}design_studio/part1/session6_designquestion conv 0.jpg`,
+  ds1('session5_A3 conv 7.webp'),
+  ds1('session6_designquestion conv 0.webp'),
 ];
 
 const CRITERIA_IMAGES = [
-  `${BASE}design_studio/part2/1_criteria-analysis_A4 conv 0.png`,
-  `${BASE}design_studio/part2/1_criteria-analysis_A4 conv 1.png`,
-  `${BASE}design_studio/part2/1_criteria-analysis_A4 conv 2.png`,
-  `${BASE}design_studio/part2/1_criteria-analysis_A4 conv 3.png`,
-  `${BASE}design_studio/part2/1_criteria-analysis_A4 conv 4.png`,
+  ds2('1_criteria-analysis_A4 conv 0.webp'),
+  ds2('1_criteria-analysis_A4 conv 1.webp'),
+  ds2('1_criteria-analysis_A4 conv 2.webp'),
+  ds2('1_criteria-analysis_A4 conv 3.webp'),
+  ds2('1_criteria-analysis_A4 conv 4.webp'),
 ];
 
 const SUITABILITY_IMAGES = [
-  `${BASE}design_studio/part2/3_suitability-maps_A3 conv 0.jpg`,
-  `${BASE}design_studio/part2/3_suitability-maps_A3 conv 1 (1).jpg`,
-  `${BASE}design_studio/part2/3_suitability-maps_A3 conv 2 (1).jpg`,
-  `${BASE}design_studio/part2/3_suitability-maps_A3 conv 3.jpg`,
+  ds2('3_suitability-maps_A3 conv 0.webp'),
+  ds2('3_suitability-maps_A3 conv 1.webp'),
+  ds2('3_suitability-maps_A3 conv 2.webp'),
+  ds2('3_suitability-maps_A3 conv 3.webp'),
 ];
 
+// Not yet uploaded to R2 (see migration report) — will 404 until it is.
 const NETWORK_IMAGES = [
-  `${BASE}design_studio/part2/4_abstract map conv 0.jpg`,
-  `${BASE}design_studio/part2/5_pen-network.png`,
+  ds2('4_abstract map conv 0.webp'),
+  ds2('5_pen-network.webp'),
 ];
 
 const OLYMPIA_IMAGES = [
-  `${BASE}design_studio/part2/6_Olympia conv 0.jpg`,
-  `${BASE}design_studio/part2/6_Olympia conv 1.png`,
+  ds2('6_Olympia conv 0.webp'),
+  ds2('6_Olympia conv 1.webp'),
 ];
 
 const VIEW_IMAGES = [
-  `${BASE}design_studio/part2/vergezicht.png`,
-  `${BASE}design_studio/part2/straatzicht.png`,
-  `${BASE}design_studio/part2/erfgoed.png`,
-  `${BASE}design_studio/part2/Doorzicht woningen.png`,
+  ds2('vergezicht.webp'),
+  ds2('straatzicht.webp'),
+  ds2('erfgoed.webp'),
+  ds2('Doorzicht woningen.webp'),
 ];
 
+// Not yet uploaded to R2 (see migration report) — will 404 until they are.
 const PXL_IMAGES = [
-  `${BASE}design_studio/part2/PXL_20240110_130345221.jpg`,
-  `${BASE}design_studio/part2/PXL_20240110_130405391.jpg`,
-  `${BASE}design_studio/part2/PXL_20240110_130429495.jpg`,
-  `${BASE}design_studio/part2/PXL_20240110_130505329.jpg`,
-  `${BASE}design_studio/part2/PXL_20240110_130526621.jpg`,
-  `${BASE}design_studio/part2/PXL_20240110_130558941.jpg`,
-  `${BASE}design_studio/part2/PXL_20240110_130636393.jpg`,
-  `${BASE}design_studio/part2/PXL_20240110_130705933.jpg`,
+  ds2('PXL_20240110_130345221.webp'),
+  ds2('PXL_20240110_130405391.webp'),
+  ds2('PXL_20240110_130429495.webp'),
+  ds2('PXL_20240110_130505329.webp'),
+  ds2('PXL_20240110_130526621.webp'),
+  ds2('PXL_20240110_130558941.webp'),
+  ds2('PXL_20240110_130636393.webp'),
+  ds2('PXL_20240110_130705933.webp'),
 ];
 
 const EXHIBITION_IMAGES = [
-  `${BASE}design_studio/part2/PXL_20260610_095640256.jpg`, // Row 1
-  `${BASE}design_studio/part2/PXL_20260610_095651009.jpg`,
-  `${BASE}design_studio/part2/PXL_20260610_110033374.jpg`, // Row 2
-  `${BASE}design_studio/part2/PXL_20260610_110050083.jpg`, // Row 2 paired with 110033374
-  `${BASE}design_studio/part2/PXL_20260610_110037052.jpg`, // Row 3
-  `${BASE}design_studio/part2/PXL_20260610_110039494.jpg`,
-  `${BASE}design_studio/part2/PXL_20260610_110045353.jpg`, // Row 4
-  `${BASE}design_studio/part2/PXL_20260610_110104973.jpg`,
-  `${BASE}design_studio/part2/PXL_20260610_110112205.jpg`,
+  ds2('PXL_20260610_095640256.webp'), // Row 1
+  ds2('PXL_20260610_095651009.webp'),
+  ds2('PXL_20260610_110033374.webp'), // Row 2
+  ds2('PXL_20260610_110050083.webp'), // Row 2 paired with 110033374
+  ds2('PXL_20260610_110037052.webp'), // Row 3
+  ds2('PXL_20260610_110039494.webp'),
+  ds2('PXL_20260610_110045353.webp'), // Row 4
+  ds2('PXL_20260610_110104973.webp'),
+  ds2('PXL_20260610_110112205.webp'),
 ];
 
 export default function DesignStudioDetail() {
@@ -183,7 +187,7 @@ export default function DesignStudioDetail() {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url("${BASE}design_studio/part2/Luchtfoto Olympia.jpg")`,
+            backgroundImage: `url("${ds2('Luchtfoto Olympia.webp')}")`,
             filter: 'blur(1.8px)',
             transform: 'scale(1.05)', // Prevents blurred edges from showing
           }}

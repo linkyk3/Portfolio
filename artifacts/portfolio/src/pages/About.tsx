@@ -9,24 +9,7 @@ const f = (weight: number, size: string, extra?: React.CSSProperties): React.CSS
   ...extra,
 });
 
-const CHANGELOG = [
-  { sha: '56c3cf8', date: '12-08-2026 20:53', summary: 'vis loading bug fix' },
-  { sha: 'f7d4c6a', date: '11-08-2026 20:53', summary: 'visualisations page first test' },
-  { sha: '473ee59', date: '11-08-2026 16:00', summary: 'about page fixes' },
-  { sha: '2d04e63', date: '11-08-2026 15:18', summary: 'created about page' },
-  { sha: '4cd4e09', date: '11-08-2026 14:27', summary: 'music page update and thesis images' },
-  { sha: 'c86ecd3', date: '11-08-2026 01:50', summary: 'base music page' },
-  { sha: '30ca800', date: '10-08-2026 23:13', summary: 'projects update' },
-  { sha: 'f3a9231', date: '10-08-2026 21:13', summary: 'projectpage fixes' },
-  { sha: '9ec1a1f', date: '10-08-2026 20:39', summary: 'Save progress before moving repo location' },
-  { sha: 'f63ff0e', date: '08-08-2026 14:21', summary: 'navbutton fix and cv update' },
-  { sha: '21d39ab', date: '08-08-2026 14:08', summary: 'bug fix + temp pages' },
-  { sha: '9c36ffc', date: '07-08-2026 16:36', summary: 'navbutton fix' },
-  { sha: 'db770d1', date: '07-08-2026 15:17', summary: 'Add Vercel Analytics component' },
-  { sha: '7678581', date: '07-08-2026 15:04', summary: 'Update vite.config.ts' },
-  { sha: '06ba8fe', date: '07-08-2026 14:51', summary: 'Update vite.config.ts' },
-  { sha: '83dff30', date: '07-08-2026 14:48', summary: 'vercel json move' },
-] as const;
+import CHANGELOG from '@/changelog.json';
 
 export default function About() {
   const [hovered, setHovered] = useState(false);
@@ -149,7 +132,7 @@ export default function About() {
             </div>
           </div>
 
-          <section aria-label="Project changelog" className="changelog-scroll min-h-0 px-1 md:justify-self-end w-full max-w-2xl" style={{ overflowY: 'auto' }}>
+          <section aria-label="Project changelog" className="changelog-scroll min-h-0 px-1 md:justify-self-end w-full max-w-2xl" style={{ overflowY: 'scroll' }}>
             <p className="text-right text-foreground/75 text-sm md:text-base font-medium tracking-[0.08em]">Changelog</p>
             <div className="mt-3 flex flex-col gap-2.5 pb-2">
               {CHANGELOG.map((entry) => (

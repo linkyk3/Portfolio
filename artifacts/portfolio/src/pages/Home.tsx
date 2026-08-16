@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { Link } from 'wouter';
 import { ThemeToggleInline } from '@/components/ThemeToggle';
+import { r2Url } from '@/lib/r2';
 
 /* Six-pointed asterisk mark */
 const LogoMark = () => (
@@ -187,7 +188,7 @@ export default function Home() {
         </a>
         {[
           { label: 'LinkedIn', href: 'https://www.linkedin.com/in/seppe-goossens-75a8671b4/', testId: 'contact-linkedin', internal: false },
-          { label: 'CV',       href: '/cv/cv.pdf',                                  testId: 'contact-cv',        internal: false },
+          { label: 'CV',       href: r2Url('misc/cv.pdf'),                            testId: 'contact-cv',        internal: false },
           { label: 'About',    href: '/about',                                       testId: 'contact-about',     internal: true },
         ].map(({ label, href, testId, internal }) =>
           internal

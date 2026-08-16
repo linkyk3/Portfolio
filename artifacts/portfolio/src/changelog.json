@@ -1,0 +1,507 @@
+[
+  {
+    "sha": "7bc7ad4",
+    "date": "15-08-2026 15:39",
+    "summary": "visualisation page update"
+  },
+  {
+    "sha": "56c3cf8",
+    "date": "12-08-2026 02:06",
+    "summary": "vis loading bug fix"
+  },
+  {
+    "sha": "f7d4c6a",
+    "date": "12-08-2026 01:33",
+    "summary": "visualisations page first test"
+  },
+  {
+    "sha": "473ee59",
+    "date": "11-08-2026 18:01",
+    "summary": "about page fixes"
+  },
+  {
+    "sha": "2d04e63",
+    "date": "11-08-2026 15:18",
+    "summary": "created about page"
+  },
+  {
+    "sha": "4cd4e09",
+    "date": "11-08-2026 14:27",
+    "summary": "music page update and thesis images"
+  },
+  {
+    "sha": "c86ecd3",
+    "date": "11-08-2026 01:50",
+    "summary": "base music page"
+  },
+  {
+    "sha": "30ca800",
+    "date": "10-08-2026 23:13",
+    "summary": "projects update"
+  },
+  {
+    "sha": "f3a9231",
+    "date": "10-08-2026 21:13",
+    "summary": "projectpage fixes"
+  },
+  {
+    "sha": "9ec1a1f",
+    "date": "10-08-2026 20:39",
+    "summary": "Save progress before moving repo location"
+  },
+  {
+    "sha": "f63ff0e",
+    "date": "08-08-2026 14:21",
+    "summary": "navbutton fix and cv update"
+  },
+  {
+    "sha": "21d39ab",
+    "date": "08-08-2026 14:08",
+    "summary": "bug fix + temp pages"
+  },
+  {
+    "sha": "9c36ffc",
+    "date": "07-08-2026 16:36",
+    "summary": "navbutton fix"
+  },
+  {
+    "sha": "db770d1",
+    "date": "07-08-2026 15:17",
+    "summary": "Add Vercel Analytics component"
+  },
+  {
+    "sha": "7678581",
+    "date": "07-08-2026 15:04",
+    "summary": "Update vite.config.ts"
+  },
+  {
+    "sha": "06ba8fe",
+    "date": "07-08-2026 14:51",
+    "summary": "Update vite.config.ts"
+  },
+  {
+    "sha": "83dff30",
+    "date": "07-08-2026 14:48",
+    "summary": "vercel json move"
+  },
+  {
+    "sha": "5bb5083",
+    "date": "07-08-2026 14:42",
+    "summary": "Create vercel.json"
+  },
+  {
+    "sha": "80abe26",
+    "date": "06-08-2026 18:43",
+    "summary": "Merge branch 'main' of https://github.com/linkyk3/MyWebsite"
+  },
+  {
+    "sha": "dbfcd69",
+    "date": "06-08-2026 18:43",
+    "summary": "Update tooltip.tsx"
+  },
+  {
+    "sha": "c9987d9",
+    "date": "06-08-2026 18:34",
+    "summary": "Delete CNAME"
+  },
+  {
+    "sha": "e63358b",
+    "date": "05-08-2026 13:16",
+    "summary": "Create CNAME"
+  },
+  {
+    "sha": "24aab1a",
+    "date": "05-08-2026 13:09",
+    "summary": "Update Projects.tsx"
+  },
+  {
+    "sha": "67424d8",
+    "date": "05-08-2026 13:07",
+    "summary": "Merge branch 'main' into feature/portfoliov2"
+  },
+  {
+    "sha": "5c48e47",
+    "date": "05-08-2026 13:06",
+    "summary": "Update Projects.tsx"
+  },
+  {
+    "sha": "5dd60e3",
+    "date": "05-08-2026 12:55",
+    "summary": "update"
+  },
+  {
+    "sha": "e045041",
+    "date": "18-07-2026 17:47",
+    "summary": "bug fix"
+  },
+  {
+    "sha": "36a87f6",
+    "date": "18-07-2026 17:20",
+    "summary": "design studio docs"
+  },
+  {
+    "sha": "c5a7f85",
+    "date": "14-07-2026 16:12",
+    "summary": "thesis project page"
+  },
+  {
+    "sha": "b7d636c",
+    "date": "14-07-2026 14:42",
+    "summary": "update"
+  },
+  {
+    "sha": "8dfe3f1",
+    "date": "13-07-2026 16:52",
+    "summary": "sum"
+  },
+  {
+    "sha": "642ed69",
+    "date": "13-07-2026 16:25",
+    "summary": "Add project filtering and image assets to portfolio"
+  },
+  {
+    "sha": "910b38f",
+    "date": "11-07-2026 18:50",
+    "summary": "Refactor Projects page layout and add preview image"
+  },
+  {
+    "sha": "795d388",
+    "date": "11-07-2026 16:08",
+    "summary": "Update Projects page layout and add portfolio screenshots"
+  },
+  {
+    "sha": "83ef9db",
+    "date": "05-07-2026 00:33",
+    "summary": "Update portfolio project images and refactor Projects component layout"
+  },
+  {
+    "sha": "aeb273c",
+    "date": "05-07-2026 00:17",
+    "summary": "Add project images and update Projects page with new portfolio works"
+  },
+  {
+    "sha": "2aeecf4",
+    "date": "04-07-2026 23:35",
+    "summary": "Update Projects page layout and styling"
+  },
+  {
+    "sha": "aa510c0",
+    "date": "04-07-2026 23:26",
+    "summary": "Redesign Selected Works page layout and refactor navigation components"
+  },
+  {
+    "sha": "987cedf",
+    "date": "04-07-2026 23:00",
+    "summary": "Update Home page layout and styling"
+  },
+  {
+    "sha": "30dd035",
+    "date": "01-07-2026 20:25",
+    "summary": "Add theme toggle component styling improvements"
+  },
+  {
+    "sha": "be42f15",
+    "date": "01-07-2026 20:22",
+    "summary": "Toggle theme button styling update"
+  },
+  {
+    "sha": "a2fb905",
+    "date": "01-07-2026 20:21",
+    "summary": "Refactor theme toggle component and update home page styling"
+  },
+  {
+    "sha": "43c43e6",
+    "date": "01-07-2026 20:18",
+    "summary": "Update Home page component styling"
+  },
+  {
+    "sha": "c5a643d",
+    "date": "01-07-2026 20:15",
+    "summary": "Update Home page component styling or layout"
+  },
+  {
+    "sha": "013074d",
+    "date": "01-07-2026 20:10",
+    "summary": "Update Home component styling or layout"
+  },
+  {
+    "sha": "21612ed",
+    "date": "01-07-2026 20:09",
+    "summary": "Refactor Home page component to improve readability and reduce complexity"
+  },
+  {
+    "sha": "0bd0e15",
+    "date": "01-07-2026 20:06",
+    "summary": "Add featured projects section to home page"
+  },
+  {
+    "sha": "80144a5",
+    "date": "01-07-2026 20:04",
+    "summary": "Update Home page component"
+  },
+  {
+    "sha": "170eb70",
+    "date": "01-07-2026 20:03",
+    "summary": "Refactor Home page component structure and styling"
+  },
+  {
+    "sha": "57c7c04",
+    "date": "01-07-2026 19:58",
+    "summary": "Update Home page component styling or layout"
+  },
+  {
+    "sha": "05f140c",
+    "date": "01-07-2026 19:52",
+    "summary": "Restored to '091fd697b44aabb58638d86495301b59e91f1f7b'"
+  },
+  {
+    "sha": "149c260",
+    "date": "01-07-2026 19:31",
+    "summary": "Extract sphere visualization logic into a new component"
+  },
+  {
+    "sha": "091fd69",
+    "date": "01-07-2026 19:26",
+    "summary": "Update Home page styling or content"
+  },
+  {
+    "sha": "f101099",
+    "date": "01-07-2026 19:23",
+    "summary": "Update Home page component styling or layout"
+  },
+  {
+    "sha": "48677e3",
+    "date": "01-07-2026 19:21",
+    "summary": "Update Home page styling or content"
+  },
+  {
+    "sha": "3ea3c4b",
+    "date": "01-07-2026 19:19",
+    "summary": "Update Home page component styling or props"
+  },
+  {
+    "sha": "18328b2",
+    "date": "01-07-2026 19:16",
+    "summary": "Update Home page styling or content"
+  },
+  {
+    "sha": "00b4dba",
+    "date": "01-07-2026 19:15",
+    "summary": "Update Home page component"
+  },
+  {
+    "sha": "cb7d056",
+    "date": "01-07-2026 19:15",
+    "summary": "Update Home page component"
+  },
+  {
+    "sha": "db0c83f",
+    "date": "01-07-2026 19:12",
+    "summary": "Update Home page component"
+  },
+  {
+    "sha": "f7aeca9",
+    "date": "01-07-2026 19:10",
+    "summary": "Update Home page styling or content"
+  },
+  {
+    "sha": "0428a62",
+    "date": "01-07-2026 19:09",
+    "summary": "Update Home page component"
+  },
+  {
+    "sha": "0f6fcdf",
+    "date": "01-07-2026 19:07",
+    "summary": "Update Home page component styling and layout"
+  },
+  {
+    "sha": "ab9e915",
+    "date": "01-07-2026 19:05",
+    "summary": "Refactor Home page component structure"
+  },
+  {
+    "sha": "dd801fc",
+    "date": "01-07-2026 19:01",
+    "summary": "Restored to '9a0b5855fc6971a1e6e6f93bcbc3855811f18130'"
+  },
+  {
+    "sha": "4cb9975",
+    "date": "01-07-2026 18:53",
+    "summary": "Restored to '9a0b5855fc6971a1e6e6f93bcbc3855811f18130'"
+  },
+  {
+    "sha": "ce75806",
+    "date": "01-07-2026 18:52",
+    "summary": "Add portfolio main component initialization"
+  },
+  {
+    "sha": "ed4488c",
+    "date": "01-07-2026 18:51",
+    "summary": "Update OrbScene component with minor refactoring changes"
+  },
+  {
+    "sha": "5347bb0",
+    "date": "01-07-2026 18:47",
+    "summary": "Extract OrbScene component and simplify Home page"
+  },
+  {
+    "sha": "9a0b585",
+    "date": "01-07-2026 18:30",
+    "summary": "Update Home page component styling and layout"
+  },
+  {
+    "sha": "b5a3c74",
+    "date": "01-07-2026 18:29",
+    "summary": "Update Home page component styling and layout"
+  },
+  {
+    "sha": "32492be",
+    "date": "01-07-2026 18:25",
+    "summary": "Refactor Home page layout and styling"
+  },
+  {
+    "sha": "a236e44",
+    "date": "01-07-2026 12:33",
+    "summary": "Restored to '9807baee66378d72bfc457e2cd129840837d7fcd'"
+  },
+  {
+    "sha": "2fba468",
+    "date": "01-07-2026 12:32",
+    "summary": "Update Home page layout and styling"
+  },
+  {
+    "sha": "2d7e1ea",
+    "date": "01-07-2026 12:30",
+    "summary": "Update Home page styling or content"
+  },
+  {
+    "sha": "9807bae",
+    "date": "01-07-2026 12:29",
+    "summary": "Update Home page component styling and layout"
+  },
+  {
+    "sha": "4cab11d",
+    "date": "01-07-2026 12:27",
+    "summary": "Update Home page styling and layout"
+  },
+  {
+    "sha": "6743dba",
+    "date": "01-07-2026 12:26",
+    "summary": "Refactor theme toggle component and update home page styling with theme support"
+  },
+  {
+    "sha": "5d45db2",
+    "date": "01-07-2026 12:19",
+    "summary": "Refactor Home page component and add portfolio image asset"
+  },
+  {
+    "sha": "90e9483",
+    "date": "01-07-2026 12:14",
+    "summary": "Update Home page with improved styling and content"
+  },
+  {
+    "sha": "b1fed40",
+    "date": "01-07-2026 12:13",
+    "summary": "Remove unused imports from Home page component"
+  },
+  {
+    "sha": "67bb8ad",
+    "date": "01-07-2026 12:13",
+    "summary": "Remove unused BelgianInfraSVG component code"
+  },
+  {
+    "sha": "ae97406",
+    "date": "01-07-2026 12:09",
+    "summary": "Restored to '3958ef9d50abff3d6bc16bec17d768605b55b19a'"
+  },
+  {
+    "sha": "f44e5c2",
+    "date": "01-07-2026 12:08",
+    "summary": "Restored to 'fb82089cbb36c0dc9547e3a6d0c48ec65972b1b1'"
+  },
+  {
+    "sha": "2ca705d",
+    "date": "01-07-2026 12:07",
+    "summary": "Extract perspective SVG component and simplify Home page"
+  },
+  {
+    "sha": "3958ef9",
+    "date": "01-07-2026 00:47",
+    "summary": "Refactor Home page layout and fix ThemeToggle styling"
+  },
+  {
+    "sha": "fb82089",
+    "date": "01-07-2026 00:44",
+    "summary": "Add dark mode theme toggle component with styling"
+  },
+  {
+    "sha": "131affe",
+    "date": "01-07-2026 00:39",
+    "summary": "Add responsive navigation styling and refactor home page layout"
+  },
+  {
+    "sha": "97a21db",
+    "date": "01-07-2026 00:32",
+    "summary": "Add hero section with image to home page"
+  },
+  {
+    "sha": "afc452e",
+    "date": "01-07-2026 00:14",
+    "summary": "Remove unused imports and simplify Home component logic"
+  },
+  {
+    "sha": "02e967c",
+    "date": "01-07-2026 00:10",
+    "summary": "Update Home page component styling and layout"
+  },
+  {
+    "sha": "33105c4",
+    "date": "01-07-2026 00:07",
+    "summary": "Refactor Home page component structure"
+  },
+  {
+    "sha": "89342d9",
+    "date": "30-06-2026 15:54",
+    "summary": "Restored to 'e4c634ed6a6840dcc523a2213ed81ea81776e718'"
+  },
+  {
+    "sha": "7ac2514",
+    "date": "30-06-2026 15:53",
+    "summary": "Restored to '07f8ec30e75227bfd183007a2947cd1ed2f77853'"
+  },
+  {
+    "sha": "e63bf3c",
+    "date": "30-06-2026 15:52",
+    "summary": "Restored to '33c7a91b51ea6891b55abc75cae1187992ff063c'"
+  },
+  {
+    "sha": "866c2df",
+    "date": "30-06-2026 15:33",
+    "summary": "Replace AbstractLines with ConstellationMap component and refactor Home page layout"
+  },
+  {
+    "sha": "07f8ec3",
+    "date": "30-06-2026 15:14",
+    "summary": "Add AbstractLines component and refactor Home page layout"
+  },
+  {
+    "sha": "2aca185",
+    "date": "30-06-2026 14:43",
+    "summary": "Replace BelgianInfraSVG with UrbanHistoryMap component and update Home page imports"
+  },
+  {
+    "sha": "e4c634e",
+    "date": "30-06-2026 14:20",
+    "summary": "Replace TracingSVG with BelgianInfraSVG component and expand Home page content"
+  },
+  {
+    "sha": "33c7a91",
+    "date": "30-06-2026 14:07",
+    "summary": "Add portfolio artifact with build configuration and dependencies"
+  },
+  {
+    "sha": "185439b",
+    "date": "25-06-2026 05:56",
+    "summary": "Initial commit"
+  }
+]

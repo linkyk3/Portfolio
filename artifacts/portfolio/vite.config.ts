@@ -42,6 +42,8 @@ export default defineConfig({
     dedupe: ['react', 'react-dom'],
   },
   root: path.resolve(import.meta.dirname),
+  // Load VITE_* vars from the repo-root .env instead of this package's own folder.
+  envDir: path.resolve(import.meta.dirname, '..', '..'),
   build: {
 	// Change 'dist/public' to 'dist'
 	outDir: path.resolve(import.meta.dirname, 'dist'),
