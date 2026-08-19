@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'wouter';
 import { ThemeToggleInline } from '@/components/ThemeToggle';
 import { FloatingNav } from '@/components/FloatingNav';
+import { VISUALIZATION_COLLECTIONS } from './visualizationCollections.data';
 
 // --- Shared Layout Primitives from Visualizations.tsx ---
 
@@ -40,15 +41,7 @@ const NAV_LINKS = [
   { label: 'About', href: '/about' },
 ];
 
-const COLLECTIONS = [
-  'Het Bos',
-  'Belgian Landscapes',
-  'Churches',
-  'Streetviews',
-  'Japan 2025',
-  'Zwarte Woud 2025',
-  'Noord-Frankrijk 2025',
-];
+const COLLECTIONS = VISUALIZATION_COLLECTIONS.map(({ slug, title }) => ({ slug, title }));
 
 const styles: { [key: string]: React.CSSProperties } = {
   pageShell: {
@@ -217,13 +210,13 @@ const VisualizationCollections = () => {
 
         <main style={styles.main}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.5rem' }}>
-            {COLLECTIONS.map((label) => {
+            {COLLECTIONS.map(({ slug, title: label }) => {
               const isHovered = hovered === label;
               const isDimmed = hovered !== null && !isHovered;
               return (
                 <Link
-                  key={label}
-                  href={`/work-in-progress/${label.toLowerCase().replace(/ /g, '-')}`}
+                  key={slug}
+                  href={`/visualizations/collections/${slug}`}
                   onMouseEnter={() => setHovered(label)}
                   onMouseLeave={() => setHovered(null)}
                   style={{

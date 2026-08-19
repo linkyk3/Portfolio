@@ -2,6 +2,12 @@ import { useState } from 'react';
 import { Link } from 'wouter';
 import { ThemeToggleInline } from '@/components/ThemeToggle';
 
+interface ChangelogEntry {
+  sha: string;
+  date: string;
+  summary: string;
+}
+
 const f = (weight: number, size: string, extra?: React.CSSProperties): React.CSSProperties => ({
   fontFamily: "'ABC ROM'",
   fontWeight: weight,
@@ -9,10 +15,11 @@ const f = (weight: number, size: string, extra?: React.CSSProperties): React.CSS
   ...extra,
 });
 
-import CHANGELOG from '@/changelog.json';
+import CHANGELOG_RAW from '@/changelog.json?raw';
 
 export default function About() {
   const [hovered, setHovered] = useState(false);
+  const changelogData = JSON.parse(CHANGELOG_RAW);
 
   return (
     <div className="h-screen w-screen overflow-hidden" style={{ display: 'flex', justifyContent: 'center', background: 'var(--background)' }}>
@@ -106,7 +113,7 @@ export default function About() {
               </p>
 
               <p className="mt-5 text-foreground/80 text-sm md:text-[15px] leading-7">
-                This site is a home for both my professional work and personal projects, things I’m proud of, experiments I’m running, and hobbies that keep me curious. It’s a snapshot of what’s going on inside my head and what’s keeping me busy.
+                This site is a home for both my professional work and personal projects, things I’m proud of, experiments I’m running, and hobbies that keep me curious. It’s a snapshot of what’s going on inside my head and what’s keeping me busy. You’ll find a mix of English and Dutch throughout the site, depending on whichever language felt right at the time.
               </p>
 
               <p className="mt-5 text-foreground/80 text-sm md:text-[15px] leading-7">
@@ -135,7 +142,7 @@ export default function About() {
           <section aria-label="Project changelog" className="changelog-scroll min-h-0 h-full px-1 md:justify-self-end w-full max-w-2xl" style={{ overflowY: 'auto' }}>
             <p className="text-right text-foreground/75 text-sm md:text-base font-medium tracking-[0.08em]">Changelog</p>
             <div className="mt-3 flex flex-col gap-2.5 pb-2">
-              {CHANGELOG.map((entry) => (
+              {changelogData.map((entry: ChangelogEntry) => (
                 <div key={entry.sha} className="text-right">
                   <p className="text-foreground/70 text-[11px] md:text-xs leading-5">
                     <span className="font-mono">{entry.date}</span>

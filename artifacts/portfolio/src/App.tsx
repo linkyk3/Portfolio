@@ -13,6 +13,7 @@ import About from '@/pages/About';
 import WorkInProgress from '@/pages/WorkInProgress';
 import Visualizations from '@/pages/Visualizations';
 import VisualizationCollections from '@/pages/VisualizationCollections';
+import VisualizationCollectionDetail from '@/pages/VisualizationCollectionDetail';
 import { GlobalNav } from '@/components/GlobalNav';
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ function Router() {
       <Route path="/music/inspiration" component={() => <WorkInProgress title="Inspiration" />} />
       <Route path="/visualizations" component={Visualizations} />
       <Route path="/visualizations/collections" component={VisualizationCollections} />
+      <Route path="/visualizations/collections/:slug" component={VisualizationCollectionDetail} />
       <Route
         path="/work-in-progress/:title"
         component={({ params }: { params: { title?: string } }) => (
