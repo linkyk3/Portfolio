@@ -1,3 +1,5 @@
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+
 type DiscogsArtist = { name?: string };
 type DiscogsFormat = { name?: string; descriptions?: string[] };
 type DiscogsLabel = { name?: string };
@@ -179,7 +181,7 @@ async function fetchDiscogsPage(url: string, token: string): Promise<DiscogsColl
   return (await response.json()) as DiscogsCollectionResponse;
 }
 
-export default async function handler(req: { method?: string }, res: { setHeader: (name: string, value: string) => void; status: (code: number) => { json: (value: unknown) => void } }) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'GET') {
     res.setHeader('Allow', 'GET');
     res.status(405).json({ message: 'Method Not Allowed' });
