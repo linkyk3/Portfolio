@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: music
+    description: Music collection operations
 paths:
   /healthz:
     get:
@@ -24,6 +26,19 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /music/collection:
+    get:
+      operationId: getMusicCollection
+      tags: [music]
+      summary: Get normalized Discogs collection
+      description: Returns recent additions and full collection sorted from newest to oldest.
+      responses:
+        "200":
+          description: Collection data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MusicCollectionResponse"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +48,57 @@ components:
           type: string
       required:
         - status
+    MusicCollectionResponse:
+      type: object
+      properties:
+        recentAdditions:
+          type: array
+          items:
+            $ref: "#/components/schemas/MusicCollectionItem"
+        fullCollection:
+          type: array
+          items:
+            $ref: "#/components/schemas/MusicCollectionItem"
+        total:
+          type: integer
+        fetchedPages:
+          type: integer
+      required:
+        - recentAdditions
+        - fullCollection
+        - total
+        - fetchedPages
+    MusicCollectionItem:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        artist:
+          type: string
+        year:
+          type: integer
+          nullable: true
+        format:
+          type: string
+        label:
+          type: string
+        coverImage:
+          type: string
+        addedAt:
+          type: string
+          format: date-time
+        discogsUrl:
+          type: string
+      required:
+        - id
+        - title
+        - artist
+        - year
+        - format
+        - label
+        - coverImage
+        - addedAt
+        - discogsUrl
 

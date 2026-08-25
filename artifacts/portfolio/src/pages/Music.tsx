@@ -5,10 +5,12 @@ import mixtapesJewel from '@assets/mixtapes_jewel.png';
 import mixtapesCD from '@assets/mixtapes_CD.png';
 import inspirationJewel from '@assets/inspiration_jewel.png';
 import inspirationCD from '@assets/inspiration_CD.png';
+import collectionJewel from '@assets/collection_jewel.png';
+import collectionCD from '@assets/collection_CD.png';
 
 import './Music.css';
 
-type MusicChoice = 'mixtapes' | 'inspiration';
+type MusicChoice = 'mixtapes' | 'inspiration' | 'collection';
 
 const f = (weight: number, size: string, extra?: React.CSSProperties): React.CSSProperties => ({
   fontFamily: "'ABC ROM'",
@@ -80,7 +82,17 @@ export default function Music() {
 
   const handleSelect = (choice: MusicChoice) => {
     setActiveSpin(null);
-    setLocation(choice === 'mixtapes' ? '/music/mixtapes' : '/music/inspiration');
+    if (choice === 'mixtapes') {
+      setLocation('/music/mixtapes');
+      return;
+    }
+
+    if (choice === 'inspiration') {
+      setLocation('/music/inspiration');
+      return;
+    }
+
+    setLocation('/music/collection');
   };
 
   return (
@@ -162,6 +174,20 @@ export default function Music() {
 
         <main className="music-main-area flex-grow" style={{ paddingLeft: '2rem', paddingRight: '2rem' }}>
           <section className="music-selection-area" aria-label="Select music category">
+            <button
+              className="music-unit"
+              onClick={() => handleSelect('collection')}
+              onMouseEnter={() => setActiveSpin('collection')}
+              onMouseLeave={() => setActiveSpin((prev) => (prev === 'collection' ? null : prev))}
+              onFocus={() => setActiveSpin('collection')}
+              onBlur={() => setActiveSpin((prev) => (prev === 'collection' ? null : prev))}
+              aria-label="Open Collection"
+            >
+              <img className="music-jewel-image" src={collectionJewel} alt="Collection jewel case" loading="lazy" />
+              <div className="cd-wrapper">
+                <SpinningCD src={collectionCD} spinning={activeSpin === 'collection'} />
+              </div>
+            </button>
             <button
               className="music-unit"
               onClick={() => handleSelect('mixtapes')}

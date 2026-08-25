@@ -7,6 +7,7 @@ import runtimeErrorOverlay from '@replit/vite-plugin-runtime-error-modal';
 
 // Use environment variables if available (for Replit), otherwise use local defaults.
 const port = Number(process.env.PORT || '5173');
+const apiServerUrl = process.env.API_SERVER_URL || 'http://localhost:3000';
 // const basePath = process.env.BASE_PATH || '/';
 
 export default defineConfig({
@@ -51,11 +52,17 @@ export default defineConfig({
 	},
   server: {
     port,
-    strictPort: true,
+    strictPort: false,
     host: '0.0.0.0',
     allowedHosts: true,
     fs: {
       strict: true,
+    },
+    proxy: {
+      '/api': {
+        target: apiServerUrl,
+        changeOrigin: true,
+      },
     },
   },
   preview: {

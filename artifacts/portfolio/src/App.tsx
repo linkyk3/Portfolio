@@ -9,6 +9,7 @@ import Projects from '@/pages/Projects';
 import ProjectDetail from '@/pages/ProjectDetail';
 import Creations from '@/pages/Creations';
 import Music from './pages/Music';
+import MusicCollection from '@/pages/MusicCollection';
 import About from '@/pages/About';
 import WorkInProgress from '@/pages/WorkInProgress';
 import Visualizations from '@/pages/Visualizations';
@@ -27,6 +28,7 @@ function Router() {
       <Route path="/projects/:id" component={ProjectDetail} />
       <Route path="/creations" component={Creations} />
       <Route path="/music" component={Music} />
+      <Route path="/music/collection" component={MusicCollection} />
       <Route path="/music/mixtapes" component={() => <WorkInProgress title="Mixtapes" />} />
       <Route path="/music/inspiration" component={() => <WorkInProgress title="Inspiration" />} />
       <Route path="/visualizations" component={Visualizations} />

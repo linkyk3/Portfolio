@@ -5,21 +5,7 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
-export interface HealthStatus {
-  status: string;
-}
-
-export interface MusicCollectionItem {
-  id: string;
-  title: string;
-  artist: string;
-  year: number | null;
-  format: string;
-  label: string;
-  coverImage: string;
-  addedAt: string;
-  discogsUrl: string;
-}
+import type { MusicCollectionItem } from './musicCollectionItem';
 
 export interface MusicCollectionResponse {
   recentAdditions: MusicCollectionItem[];
@@ -27,4 +13,3 @@ export interface MusicCollectionResponse {
   total: number;
   fetchedPages: number;
 }
-
