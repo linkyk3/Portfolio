@@ -2,6 +2,16 @@ import { Link } from 'wouter';
 import { getGetMusicCollectionQueryKey, useGetMusicCollection } from '@workspace/api-client-react';
 import { ThemeToggleInline } from '@/components/ThemeToggle';
 import { FloatingNav } from '@/components/FloatingNav';
+import plasticWrap1 from '@assets/plastic_wrap (1).png';
+import plasticWrap2 from '@assets/plastic_wrap (2).png';
+import plasticWrap3 from '@assets/plastic_wrap (3).png';
+import plasticWrap4 from '@assets/plastic_wrap (4).png';
+import plasticWrap5 from '@assets/plastic_wrap (5).png';
+import plasticWrap6 from '@assets/plastic_wrap (6).png';
+import plasticWrap7 from '@assets/plastic_wrap (7).png';
+import plasticWrap8 from '@assets/plastic_wrap (8).png';
+import plasticWrap10 from '@assets/plastic_wrap (10).png';
+import plasticWrap11 from '@assets/plastic_wrap (11).png';
 
 import './MusicCollection.css';
 
@@ -25,12 +35,34 @@ const NAV_LINKS = [
   { label: 'About', href: '/about' },
 ];
 
+const PLASTIC_TEXTURES = [
+  plasticWrap1,
+  plasticWrap2,
+  plasticWrap3,
+  plasticWrap4,
+  plasticWrap5,
+  plasticWrap6,
+  plasticWrap7,
+  plasticWrap8,
+  plasticWrap10,
+  plasticWrap11,
+];
+
 const f = (weight: number, size: string, extra?: React.CSSProperties): React.CSSProperties => ({
   fontFamily: "'ABC ROM'",
   fontWeight: weight,
   fontSize: size,
   ...extra,
 });
+
+function textureIndexFromId(value: string): number {
+  let hash = 0;
+  for (let i = 0; i < value.length; i += 1) {
+    hash = (hash * 31 + value.charCodeAt(i)) >>> 0;
+  }
+
+  return hash % PLASTIC_TEXTURES.length;
+}
 
 function CollectionCard({ item }: { item: MusicCollectionItem }) {
   const compactFormat = item.format.toLowerCase().includes('cd') ? 'CD' : 'Vinyl';
@@ -39,6 +71,7 @@ function CollectionCard({ item }: { item: MusicCollectionItem }) {
   const discogsUrl = rawDiscogsUrl
     ? (rawDiscogsUrl.startsWith('http') ? rawDiscogsUrl : `https://www.discogs.com${rawDiscogsUrl.startsWith('/') ? rawDiscogsUrl : `/${rawDiscogsUrl}`}`)
     : `https://www.discogs.com/search/?q=${fallbackQuery}`;
+  const textureUrl = PLASTIC_TEXTURES[textureIndexFromId(item.id)];
 
   return (
     <article className="music-collection-card">
@@ -53,6 +86,13 @@ function CollectionCard({ item }: { item: MusicCollectionItem }) {
           className="music-collection-cover"
           src={item.coverImage}
           alt={`${item.title} album cover`}
+          loading="lazy"
+        />
+        <img
+          className="music-collection-texture"
+          src={textureUrl}
+          alt=""
+          aria-hidden="true"
           loading="lazy"
         />
       </a>
