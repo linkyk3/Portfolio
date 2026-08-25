@@ -1,9 +1,0 @@
-{
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "noEmit": false,
-    "moduleResolution": "bundler",
-    "types": ["node", "@vercel/node"]
-  },
-  "include": ["./**/*.ts"]
-}

@@ -1,58 +1,13 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-
-type DiscogsArtist = { name?: string };
-type DiscogsFormat = { name?: string; descriptions?: string[] };
-type DiscogsLabel = { name?: string };
-
-type DiscogsBasicInformation = {
-  id?: number;
-  title?: string;
-  artists?: DiscogsArtist[];
-  year?: number;
-  formats?: DiscogsFormat[];
-  labels?: DiscogsLabel[];
-  cover_image?: string;
-  thumb?: string;
-  uri?: string;
-  resource_url?: string;
-};
-
-type DiscogsReleaseItem = {
-  id?: number;
-  instance_id?: number;
-  date_added?: string;
-  basic_information?: DiscogsBasicInformation;
-};
-
-type DiscogsCollectionResponse = {
-  pagination?: {
-    pages?: number;
-  };
-  releases?: DiscogsReleaseItem[];
-};
-
-type MusicCollectionItem = {
-  id: string;
-  title: string;
-  artist: string;
-  year: number | null;
-  format: string;
-  label: string;
-  coverImage: string;
-  addedAt: string;
-  discogsUrl: string;
-};
-
 const DISCOGS_API_BASE = 'https://api.discogs.com';
 const USER_AGENT = 'PortfolioMusicApp/1.0 (https://github.com/linkyk3/Portfolio)';
 const PAGE_SIZE = 100;
 const FALLBACK_COVER_IMAGE = 'https://pub-c0213405e2bb46a699b3f27d6cc98185.r2.dev/misc/favicon.svg';
 
-function stripDiscogsSuffix(value: string): string {
+function stripDiscogsSuffix(value) {
   return value.replace(/\s\(\d+\)$/, '').trim();
 }
 
-function cleanArtist(item: DiscogsReleaseItem): string {
+function cleanArtist(item) {
   const names = (item.basic_information?.artists ?? [])
     .map((artist) => stripDiscogsSuffix((artist.name ?? '').trim()))
     .filter(Boolean);
@@ -60,7 +15,7 @@ function cleanArtist(item: DiscogsReleaseItem): string {
   return names.length > 0 ? names.join(', ') : 'Unknown Artist';
 }
 
-function cleanYear(item: DiscogsReleaseItem): number | null {
+function cleanYear(item) {
   const year = item.basic_information?.year;
   if (!year || year <= 0) {
     return null;
@@ -69,7 +24,7 @@ function cleanYear(item: DiscogsReleaseItem): number | null {
   return year;
 }
 
-function cleanFormat(item: DiscogsReleaseItem): string {
+function cleanFormat(item) {
   const formats = (item.basic_information?.formats ?? [])
     .flatMap((format) => [format.name ?? '', ...(format.descriptions ?? [])])
     .map((value) => value.trim().toLowerCase())
@@ -82,7 +37,7 @@ function cleanFormat(item: DiscogsReleaseItem): string {
   return 'Vinyl';
 }
 
-function cleanLabel(item: DiscogsReleaseItem): string {
+function cleanLabel(item) {
   const labels = (item.basic_information?.labels ?? [])
     .map((label) => (label.name ?? '').trim())
     .filter(Boolean);
@@ -90,7 +45,7 @@ function cleanLabel(item: DiscogsReleaseItem): string {
   return labels.length > 0 ? Array.from(new Set(labels)).join(' / ') : 'Unknown Label';
 }
 
-function cleanCoverImage(item: DiscogsReleaseItem): string {
+function cleanCoverImage(item) {
   const cover = item.basic_information?.cover_image?.trim();
   if (cover) {
     return cover;
@@ -104,12 +59,12 @@ function cleanCoverImage(item: DiscogsReleaseItem): string {
   return FALLBACK_COVER_IMAGE;
 }
 
-function cleanTitle(item: DiscogsReleaseItem): string {
+function cleanTitle(item) {
   const title = item.basic_information?.title?.trim();
   return title && title.length > 0 ? title : 'Untitled Release';
 }
 
-function cleanAddedAt(item: DiscogsReleaseItem): string {
+function cleanAddedAt(item) {
   const dateAdded = item.date_added;
   if (dateAdded) {
     const parsed = new Date(dateAdded);
@@ -121,7 +76,7 @@ function cleanAddedAt(item: DiscogsReleaseItem): string {
   return new Date(0).toISOString();
 }
 
-function buildDiscogsUrl(item: DiscogsReleaseItem): string {
+function buildDiscogsUrl(item) {
   const uri = item.basic_information?.uri?.trim();
   if (uri) {
     if (uri.startsWith('http://') || uri.startsWith('https://')) {
@@ -148,7 +103,7 @@ function buildDiscogsUrl(item: DiscogsReleaseItem): string {
   return `https://www.discogs.com/search/?q=${query}`;
 }
 
-function normalizeRelease(item: DiscogsReleaseItem): MusicCollectionItem {
+function normalizeRelease(item) {
   const fallbackId = `${item.basic_information?.id ?? 'unknown'}-${item.instance_id ?? item.id ?? '0'}`;
 
   return {
@@ -164,7 +119,7 @@ function normalizeRelease(item: DiscogsReleaseItem): MusicCollectionItem {
   };
 }
 
-async function fetchDiscogsPage(url: string, token: string): Promise<DiscogsCollectionResponse> {
+async function fetchDiscogsPage(url, token) {
   const response = await fetch(url, {
     headers: {
       'User-Agent': USER_AGENT,
@@ -178,18 +133,18 @@ async function fetchDiscogsPage(url: string, token: string): Promise<DiscogsColl
     throw new Error(`Discogs request failed (${response.status}): ${body}`);
   }
 
-  return (await response.json()) as DiscogsCollectionResponse;
+  return response.json();
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req, res) {
   if (req.method !== 'GET') {
     res.setHeader('Allow', 'GET');
     res.status(405).json({ message: 'Method Not Allowed' });
     return;
   }
 
-  const username = process.env['DISCOGS_USERNAME'] ?? 'linky2001';
-  const token = process.env['DISCOGS_API_TOKEN'];
+  const username = process.env.DISCOGS_USERNAME ?? 'linky2001';
+  const token = process.env.DISCOGS_API_TOKEN;
 
   if (!token) {
     res.status(500).json({
@@ -200,7 +155,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const allReleases: DiscogsReleaseItem[] = [];
+    const allReleases = [];
     let currentPage = 1;
     let totalPages = 1;
     let fetchedPages = 0;
@@ -225,7 +180,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       total: normalized.length,
       fetchedPages,
     });
-  } catch (error: unknown) {
+  } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown server error';
     res.status(500).json({ code: 'DISCOGS_FETCH_FAILED', message });
   }
