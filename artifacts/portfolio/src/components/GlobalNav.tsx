@@ -6,7 +6,7 @@ export function GlobalNav() {
   const [location] = useLocation();
 
   // Pages with their own header handle navigation inline
-  if (location === '/' || location === '/projects' || location === '/music' || location === '/about') return null;
+  if (location === '/' || location === '/projects' || location === '/music' || location === '/music/mixtapes' || location === '/about') return null;
 
   const links = [
     { href: '/', label: 'HOME' },

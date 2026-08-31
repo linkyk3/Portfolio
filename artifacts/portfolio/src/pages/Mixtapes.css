@@ -1,0 +1,243 @@
+.mixtapes-page-shell {
+  position: relative;
+  --y2k-red: #ff0000;
+  /* Approx combined height of header + dividers + footer, so 2 rows fit exactly in the viewport */
+  --mixtapes-chrome: 7rem;
+}
+
+.mixtapes-main {
+  /* Fixed geometry tokens: single source of truth, referenced everywhere instead of ad-hoc math. */
+  --jewel-size: clamp(16rem, calc((100vh - var(--mixtapes-chrome)) / 2 * 1.06), 58rem);
+  /* Both grid side-columns share this one hard-length track, so neither can ever be squeezed by
+     the jewel/CD column growing - that fractional-column squeeze was the root cause of the bug. */
+  --side-col: clamp(20rem, 24vw, 26rem);
+  --tracklist-max-width: calc(var(--side-col) - 2rem);
+  /* CD travel distance stays inside its own guaranteed side-col, so it never clips or overlaps */
+  --cd-reveal-shift: calc(var(--side-col) * 0.82);
+  display: flex;
+  flex-direction: column;
+}
+
+.mixtape-row {
+  /* Floor only - a long tracklist can grow the row taller and push later rows down the page */
+  min-height: calc((100vh - var(--mixtapes-chrome)) / 2);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Matches the header/divider's 2rem inset so the tracklist starts at the same left edge */
+  padding: 2.5rem 2rem;
+}
+
+.mixtape-card {
+  position: relative;
+  display: grid;
+  /* Both side tracks are hard lengths (not fr) - the middle column can never squeeze them */
+  grid-template-columns: var(--side-col) var(--jewel-size) var(--side-col);
+  align-items: center;
+  width: 100%;
+  max-width: 96rem;
+  text-decoration: none;
+  color: var(--foreground);
+  transition: filter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mixtape-card.is-blurred {
+  filter: blur(3px) saturate(0.9) brightness(0.96);
+}
+
+.mixtape-card:focus-visible {
+  outline: 2px solid var(--y2k-red);
+  outline-offset: 6px;
+}
+
+/* --- Tracklist (left): fills the whitespace between the row's left inset and the jewelcase --- */
+.mixtape-tracklist {
+  justify-self: end;
+  align-self: center;
+  width: 100%;
+  max-width: var(--tracklist-max-width);
+  padding-right: 1.5rem;
+  opacity: 0;
+  transform: translateX(20px);
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mixtape-card.is-active .mixtape-tracklist {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.mixtape-title {
+  margin: 0 0 1.25rem;
+  font-family: 'ABC ROM', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.mixtape-track-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.mixtape-track {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.15rem 0;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.mixtape-track-num {
+  flex-shrink: 0;
+  width: 1.4rem;
+  font-size: 0.65rem;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.55;
+}
+
+.mixtape-track-text {
+  min-width: 0;
+}
+
+.mixtape-track-artist {
+  font-weight: 600;
+  font-size: clamp(1.05rem, 1.3vw, 1.4rem);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.mixtape-track-title {
+  margin-left: 0.4rem;
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0;
+  opacity: 0.65;
+}
+
+/* --- Art box: exactly the jewelcase's footprint; CD travels out into the reserved side-col --- */
+.mixtape-art-box {
+  position: relative;
+  width: var(--jewel-size);
+  height: var(--jewel-size);
+}
+
+/* --- Hover zone: exact jewelcase footprint, the only element that triggers the hover state --- */
+.mixtape-hover-zone {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+
+/* --- Jewelcase (fills the hover zone exactly) --- */
+.mixtape-jewel-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mixtape-card.is-active .mixtape-jewel-wrap {
+  transform: scale(1.04) translateY(-2px);
+}
+
+.mixtape-jewel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.28)) drop-shadow(0 14px 22px rgba(0, 0, 0, 0.35));
+}
+
+/* --- CD (behind jewelcase at rest, slides into the side-col reveal space on hover) --- */
+.mixtape-cd-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25)) drop-shadow(0 10px 18px rgba(0, 0, 0, 0.3));
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mixtape-card.is-active .mixtape-cd-wrap {
+  transform: translateX(var(--cd-reveal-shift));
+}
+
+.mixtape-cd-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transform-origin: 50% 50%;
+}
+
+.mixtape-card.is-active .mixtape-cd-image {
+  animation: mixtape-spin 6s linear infinite;
+}
+
+@keyframes mixtape-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .mixtape-row {
+    min-height: auto;
+    padding: 2.5rem 1.25rem;
+  }
+
+  .mixtape-card {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    row-gap: 1rem;
+    max-width: 24rem;
+  }
+
+  .mixtape-art-box {
+    width: min(60vw, 220px);
+    height: min(60vw, 220px);
+  }
+
+  .mixtape-hover-zone,
+  .mixtape-jewel-wrap,
+  .mixtape-cd-wrap {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* No hover on touch: tracklist is always visible, CD stays docked behind the jewelcase */
+  .mixtape-tracklist {
+    justify-self: center;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    max-width: 100%;
+    order: -1;
+    text-align: center;
+    padding-right: 0;
+  }
+
+  .mixtape-card.is-blurred {
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mixtape-card.is-active .mixtape-cd-image {
+    animation: none;
+  }
+
+  .mixtape-card,
+  .mixtape-tracklist,
+  .mixtape-art-box,
+  .mixtape-hover-zone,
+  .mixtape-jewel-wrap,
+  .mixtape-cd-wrap {
+    transition: none;
+  }
+}
