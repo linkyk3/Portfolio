@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'wouter';
 import { ThemeToggleInline } from '@/components/ThemeToggle';
 import { FloatingNav } from '@/components/FloatingNav';
@@ -161,12 +161,13 @@ const f = (weight: number, size: string, extra?: React.CSSProperties): React.CSS
   ...extra,
 });
 
-function MixtapeCard({ item, isActive, isBlurred, onHoverStart, onHoverEnd }: {
+function MixtapeCard({ item, isActive, isBlurred, onHoverStart, onHoverEnd, onFocusStart }: {
   item: Mixtape;
   isActive: boolean;
   isBlurred: boolean;
   onHoverStart: () => void;
   onHoverEnd: () => void;
+  onFocusStart: () => void;
 }) {
   return (
     <section className="mixtape-row">
@@ -176,7 +177,7 @@ function MixtapeCard({ item, isActive, isBlurred, onHoverStart, onHoverEnd }: {
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`Play ${item.title} on YouTube`}
-        onFocus={onHoverStart}
+        onFocus={onFocusStart}
         onBlur={onHoverEnd}
       >
         <div className="mixtape-tracklist">
@@ -211,6 +212,23 @@ function MixtapeCard({ item, isActive, isBlurred, onHoverStart, onHoverEnd }: {
 
 export default function Mixtapes() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  // Ignore the "phantom" mouseenter fired on mount when the cursor already sits over a card
+  // (carried over from the previous page) - only arm hover once the mouse actually moves here.
+  const hasMouseMovedRef = useRef(false);
+
+  useEffect(() => {
+    const handleMouseMove = () => {
+      hasMouseMovedRef.current = true;
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  const handleHoverStart = (id: string) => {
+    if (!hasMouseMovedRef.current) return;
+    setHoveredId(id);
+  };
 
   return (
     <div style={{ width: '100vw', display: 'flex', justifyContent: 'center', background: 'var(--background)' }}>
@@ -297,8 +315,9 @@ export default function Mixtapes() {
               item={item}
               isActive={hoveredId === item.id}
               isBlurred={hoveredId !== null && hoveredId !== item.id}
-              onHoverStart={() => setHoveredId(item.id)}
+              onHoverStart={() => handleHoverStart(item.id)}
               onHoverEnd={() => setHoveredId((prev) => (prev === item.id ? null : prev))}
+              onFocusStart={() => setHoveredId(item.id)}
             />
           ))}
         </main>

@@ -32,11 +32,10 @@
 .mixtape-card {
   position: relative;
   display: grid;
-  /* Both side tracks are hard lengths (not fr) - the middle column can never squeeze them */
-  grid-template-columns: var(--side-col) var(--jewel-size) var(--side-col);
+  /* Side tracks grow equally (fr) so the jewel column stays centered; --side-col is only a floor */
+  grid-template-columns: minmax(var(--side-col), 1fr) var(--jewel-size) minmax(var(--side-col), 1fr);
   align-items: center;
   width: 100%;
-  max-width: 96rem;
   text-decoration: none;
   color: var(--foreground);
   transition: filter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -51,13 +50,12 @@
   outline-offset: 6px;
 }
 
-/* --- Tracklist (left): fills the whitespace between the row's left inset and the jewelcase --- */
+/* --- Tracklist (left): pinned to the row's left inset, leaving whitespace before the jewelcase --- */
 .mixtape-tracklist {
-  justify-self: end;
+  justify-self: start;
   align-self: center;
   width: 100%;
   max-width: var(--tracklist-max-width);
-  padding-right: 1.5rem;
   opacity: 0;
   transform: translateX(20px);
   pointer-events: none;
@@ -73,8 +71,14 @@
   margin: 0 0 1.25rem;
   font-family: 'ABC ROM', sans-serif;
   font-weight: 500;
-  font-size: 1rem;
-  letter-spacing: -0.01em;
+  font-size: clamp(1.6rem, 3.8vh, 2.6rem);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-foreground);
+  user-select: none;
+  white-space: nowrap;
+  width: max-content;
 }
 
 .mixtape-track-list {
@@ -174,10 +178,13 @@
   object-fit: contain;
   display: block;
   transform-origin: 50% 50%;
+  /* Always attached but paused, so resuming on hover continues from the current angle instead of snapping back */
+  animation: mixtape-spin 6s linear infinite;
+  animation-play-state: paused;
 }
 
 .mixtape-card.is-active .mixtape-cd-image {
-  animation: mixtape-spin 6s linear infinite;
+  animation-play-state: running;
 }
 
 @keyframes mixtape-spin {
@@ -228,8 +235,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mixtape-card.is-active .mixtape-cd-image {
-    animation: none;
+  .mixtape-cd-image {
+    animation-play-state: paused;
   }
 
   .mixtape-card,
