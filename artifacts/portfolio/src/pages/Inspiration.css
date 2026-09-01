@@ -1,0 +1,4 @@
+/* Webamp renders itself into a top-level #webamp node appended to <body>, outside this page's DOM. */
+#webamp {
+  filter: drop-shadow(0 22px 34px rgba(0, 0, 0, 0.45)) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+}

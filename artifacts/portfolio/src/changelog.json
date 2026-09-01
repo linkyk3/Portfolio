@@ -1,5 +1,50 @@
 [
   {
+    "sha": "6220541",
+    "date": "01-09-2026 11:49",
+    "summary": "mixtapes page update"
+  },
+  {
+    "sha": "d0aaa1a",
+    "date": "31-08-2026 17:45",
+    "summary": "added mixtapes"
+  },
+  {
+    "sha": "890e821",
+    "date": "25-08-2026 13:07",
+    "summary": "2nd emit bug fix"
+  },
+  {
+    "sha": "5514b99",
+    "date": "25-08-2026 13:01",
+    "summary": "Emit skipped fix"
+  },
+  {
+    "sha": "261481d",
+    "date": "25-08-2026 12:55",
+    "summary": "Vercel collection bug fix"
+  },
+  {
+    "sha": "7108eac",
+    "date": "25-08-2026 12:32",
+    "summary": "Music collections page added"
+  },
+  {
+    "sha": "312c45d",
+    "date": "19-08-2026 23:30",
+    "summary": "updated the visualisation page and added collections"
+  },
+  {
+    "sha": "0b98b95",
+    "date": "16-08-2026 18:53",
+    "summary": "about page changelog fix"
+  },
+  {
+    "sha": "d9afdd3",
+    "date": "16-08-2026 18:40",
+    "summary": "added R2 database"
+  },
+  {
     "sha": "7bc7ad4",
     "date": "15-08-2026 15:39",
     "summary": "visualisation page update"

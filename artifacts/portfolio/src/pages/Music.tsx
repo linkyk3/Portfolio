@@ -209,9 +209,9 @@ export default function Music() {
               onMouseLeave={() => setActiveSpin((prev) => (prev === 'inspiration' ? null : prev))}
               onFocus={() => setActiveSpin('inspiration')}
               onBlur={() => setActiveSpin((prev) => (prev === 'inspiration' ? null : prev))}
-              aria-label="Open Inspiration"
+              aria-label="Open Music Player"
             >
-              <img className="music-jewel-image" src={inspirationJewel} alt="Inspiration jewel case" loading="lazy" />
+              <img className="music-jewel-image" src={inspirationJewel} alt="Music Player jewel case" loading="lazy" />
               <div className="cd-wrapper">
                 <SpinningCD src={inspirationCD} spinning={activeSpin === 'inspiration'} />
               </div>

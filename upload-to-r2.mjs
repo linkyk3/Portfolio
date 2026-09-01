@@ -7,12 +7,31 @@ const ACCOUNT_ID = '994bc6536c40f4b32768fb3be7a92a22';
 const ACCESS_KEY_ID = '9c215c13f93f4a9c2454b92c82743f7c';
 const SECRET_ACCESS_KEY = '28f3b1ece6db0855720127b4d5b3c903c8c1d224784f920cdc78d2418e40427a';
 const BUCKET_NAME = 'portfolio-assets';
-const LOCAL_FOLDER = 'C:/Users/seppe/Documents/DOCUMENTS/portfolio-assets';
-const R2_PREFIX = ''; // Destination prefix in R2
 
-// Only these file types will ever be touched
-const ALLOWED_EXTENSIONS = new Set(['.webp', '.jpg', '.jpeg', '.png', '.pdf', '.svg']);
+// Define folders to scan with their relative base path for R2
+const FOLDERS_TO_SYNC = [
+  {
+    localPath: 'C:/Users/seppe/Documents/DOCUMENTS/portfolio-assets',
+    prefix: '',
+  },
+  {
+    localPath: 'C:/Users/seppe/Documents/DOCUMENTS/portfolio-assets/music/music-player',
+    prefix: 'music/music-player',
+  },
+];
+
+// Allowed extensions
+const ALLOWED_EXTENSIONS = new Set(['.webp', '.jpg', '.jpeg', '.png', '.pdf', '.svg', '.mp3']);
 // ----------------------
+
+// Strict RFC 3986 encoding required for AWS SigV4
+function awsUriEncode(str, isPath = true) {
+  let encoded = encodeURIComponent(str).replace(/[!'()*]/g, c => '%' + c.charCodeAt(0).toString(16).toUpperCase());
+  if (isPath) {
+    encoded = encoded.replace(/%2F/g, '/');
+  }
+  return encoded;
+}
 
 function getMimeType(filePath) {
   const ext = path.extname(filePath).toLowerCase();
@@ -23,6 +42,7 @@ function getMimeType(filePath) {
     '.png': 'image/png',
     '.pdf': 'application/pdf',
     '.svg': 'image/svg+xml',
+    '.mp3': 'audio/mpeg',
   };
   return map[ext] || 'application/octet-stream';
 }
@@ -76,7 +96,6 @@ function getAuthHeaders(method, canonicalUri, queryString, bodyBuffer, contentTy
   return headers;
 }
 
-// Fetch all keys currently existing in the R2 bucket
 async function getExistingR2Keys() {
   const host = `${ACCOUNT_ID}.r2.cloudflarestorage.com`;
   const canonicalUri = `/${BUCKET_NAME}`;
@@ -108,12 +127,13 @@ async function getExistingR2Keys() {
   return existingKeys;
 }
 
-// Recursively find ONLY allowed media formats
 function getLocalFiles(dirPath, arrayOfFiles = []) {
+  if (!fs.existsSync(dirPath)) return arrayOfFiles;
+
   const entries = fs.readdirSync(dirPath, { withFileTypes: true });
 
   for (const entry of entries) {
-    if (entry.name.startsWith('.')) continue; // skip hidden folders (.git, .cache, etc.)
+    if (entry.name.startsWith('.')) continue;
 
     const fullPath = path.join(dirPath, entry.name);
     if (entry.isDirectory()) {
@@ -128,59 +148,84 @@ function getLocalFiles(dirPath, arrayOfFiles = []) {
   return arrayOfFiles;
 }
 
-async function uploadFile(fullPath, cleanKey) {
+async function uploadFileWithRetry(fullPath, cleanKey, maxRetries = 3) {
   const fileBuffer = fs.readFileSync(fullPath);
   const contentType = getMimeType(fullPath);
   const host = `${ACCOUNT_ID}.r2.cloudflarestorage.com`;
-  const canonicalUri = `/${BUCKET_NAME}/${encodeURI(cleanKey)}`;
-  const url = `https://${host}/${BUCKET_NAME}/${encodeURI(cleanKey)}`;
+  
+  // Strict percent-encoding applied to URI
+  const encodedKey = awsUriEncode(cleanKey, true);
+  const canonicalUri = `/${BUCKET_NAME}/${encodedKey}`;
+  const url = `https://${host}/${BUCKET_NAME}/${encodedKey}`;
 
-  const headers = getAuthHeaders('PUT', canonicalUri, '', fileBuffer, contentType);
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    const headers = getAuthHeaders('PUT', canonicalUri, '', fileBuffer, contentType);
 
-  const response = await fetch(url, {
-    method: 'PUT',
-    headers,
-    body: fileBuffer,
-  });
+    try {
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers,
+        body: fileBuffer,
+      });
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`HTTP ${response.status}: ${errorText}`);
+      if (response.ok) return;
+
+      const errorText = await response.text();
+      if (response.status >= 500 && attempt < maxRetries) {
+        console.warn(`[Attempt ${attempt}/${maxRetries}] Server error ${response.status}. Retrying in 2s...`);
+        await new Promise(res => setTimeout(res, 2000));
+        continue;
+      }
+      throw new Error(`HTTP ${response.status}: ${errorText}`);
+    } catch (err) {
+      if (attempt < maxRetries && err.message.includes('fetch failed')) {
+        console.warn(`[Attempt ${attempt}/${maxRetries}] Network drop. Retrying in 2s...`);
+        await new Promise(res => setTimeout(res, 2000));
+        continue;
+      }
+      throw err;
+    }
   }
 }
 
 async function run() {
-  console.log('1. Scanning local folder for valid images & PDFs...');
-  const localFiles = getLocalFiles(LOCAL_FOLDER);
-  console.log(`Found ${localFiles.length} valid media files locally.`);
+  console.log('1. Scanning local folders...');
+  const allTasks = [];
+  const seenPaths = new Set();
+
+  for (const config of FOLDERS_TO_SYNC) {
+    const files = getLocalFiles(config.localPath);
+    for (const filePath of files) {
+      if (seenPaths.has(filePath)) continue;
+      seenPaths.add(filePath);
+
+      const relPath = path.relative(config.localPath, filePath).replace(/\\/g, '/');
+      const targetKey = config.prefix ? `${config.prefix}/${relPath}` : relPath;
+      allTasks.push({ filePath, targetKey });
+    }
+  }
+
+  console.log(`Found ${allTasks.length} valid media/music files locally.`);
 
   console.log('2. Checking existing files in Cloudflare R2...');
   const existingR2Keys = await getExistingR2Keys();
   console.log(`Found ${existingR2Keys.size} files already in R2.`);
 
-  // Determine what is new
-  const filesToUpload = localFiles.filter(filePath => {
-    const relPath = path.relative(LOCAL_FOLDER, filePath).replace(/\\/g, '/');
-    const targetKey = R2_PREFIX ? `${R2_PREFIX}/${relPath}` : relPath;
-    return !existingR2Keys.has(targetKey);
-  });
+  const filesToUpload = allTasks.filter(item => !existingR2Keys.has(item.targetKey));
 
   if (filesToUpload.length === 0) {
-    console.log('All media files are already synced with R2! Nothing to upload.');
+    console.log('All files are already synced with R2! Nothing to upload.');
     return;
   }
 
   console.log(`\n3. Uploading ${filesToUpload.length} new file(s)...`);
 
-  for (const [index, filePath] of filesToUpload.entries()) {
-    const relPath = path.relative(LOCAL_FOLDER, filePath).replace(/\\/g, '/');
-    const targetKey = R2_PREFIX ? `${R2_PREFIX}/${relPath}` : relPath;
-
+  for (const [index, item] of filesToUpload.entries()) {
     try {
-      await uploadFile(filePath, targetKey);
-      console.log(`[${index + 1}/${filesToUpload.length}] Uploaded: ${targetKey}`);
+      await uploadFileWithRetry(item.filePath, item.targetKey);
+      console.log(`[${index + 1}/${filesToUpload.length}] Uploaded: ${item.targetKey}`);
     } catch (err) {
-      console.error(`Failed ${targetKey}:`, err.message);
+      console.error(`Failed ${item.targetKey}:`, err.message);
     }
   }
 
