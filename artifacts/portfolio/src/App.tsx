@@ -13,6 +13,7 @@ import Mixtapes from '@/pages/Mixtapes';
 import Inspiration from '@/pages/Inspiration';
 import MusicCollection from '@/pages/MusicCollection';
 import About from '@/pages/About';
+import Blog from '@/pages/Blog';
 import WorkInProgress from '@/pages/WorkInProgress';
 import Visualizations from '@/pages/Visualizations';
 import VisualizationCollections from '@/pages/VisualizationCollections';
@@ -42,7 +43,7 @@ function Router() {
           <WorkInProgress title={params.title ?? 'Work In Progress'} />
         )}
       />
-      <Route path="/blog" component={() => <WorkInProgress title="Blog" />} />
+      <Route path="/blog" component={Blog} />
       <Route component={NotFound} />
     </Switch>
   );
