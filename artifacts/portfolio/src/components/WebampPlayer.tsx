@@ -42,11 +42,22 @@ function shuffle<T>(items: T[]): T[] {
   return shuffled;
 }
 
+// Total footprint of the windowLayout below: left column (main+eq+playlist) is
+// 275 wide x 870 tall; milkdrop sits at left:275, sized 275+20*25=775 wide x
+// 116+26*29=870 tall. Webamp itself is always appended to <body>, and its
+// internal "does this fit?" check (which resets/stacks the windows if not)
+// measures the real document size, not our container - so Inspiration.tsx
+// reserves at least this much page space to keep that check from ever
+// failing, and we visually scale #webamp down to fit smaller viewports below.
+export const STAGE_WIDTH = 1050;
+export const STAGE_HEIGHT = 870;
+
 export function WebampPlayer() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const webampRef = useRef<Webamp | null>(null);
   const [isSupported, setIsSupported] = useState(true);
   const [loadError, setLoadError] = useState(false);
+  const [isClosed, setIsClosed] = useState(false);
 
   useEffect(() => {
     if (!Webamp.browserIsSupported()) {
@@ -61,6 +72,7 @@ export function WebampPlayer() {
       initialTracks: shuffle(getWebampTracks()),
       initialSkin: { url: '/skins/2D.wsz' },
       availableSkins: AVAILABLE_SKINS,
+      enableHotkeys: true,
       // Enlarges the Milkdrop visualizer well beyond Webamp's default (extraWidth/Height: 7/12).
       windowLayout: {
         main: { position: { left: 0, top: 0 } },
@@ -78,19 +90,43 @@ export function WebampPlayer() {
       },
     });
     webampRef.current = webamp;
+    // Closing the main window closes the whole instance; offer a way back in instead of requiring a reload.
+    const unsubscribeClose = webamp.onClose(() => setIsClosed(true));
+    let resizeObserver: ResizeObserver | undefined;
     webamp
       .renderWhenReady(containerRef.current)
-      .then(() => webamp.play())
+      .then(() => {
+        webamp.play();
+
+        // Cosmetic only: shrinks the already-correctly-laid-out #webamp node to fit
+        // whatever space is actually available, without ever upscaling past its native size.
+        const webampNode = document.getElementById('webamp');
+        if (webampNode == null || containerRef.current == null) return;
+        webampNode.style.transformOrigin = 'center';
+        resizeObserver = new ResizeObserver((entries) => {
+          const { width, height } = entries[0].contentRect;
+          const scale = Math.min(1, width / STAGE_WIDTH, height / STAGE_HEIGHT);
+          webampNode.style.transform = `scale(${scale})`;
+        });
+        resizeObserver.observe(containerRef.current);
+      })
       .catch((err: unknown) => {
         console.error('Webamp failed to render:', err);
         setLoadError(true);
       });
 
     return () => {
+      unsubscribeClose();
+      resizeObserver?.disconnect();
       webamp.dispose();
       webampRef.current = null;
     };
   }, []);
+
+  const handleReopen = () => {
+    webampRef.current?.reopen();
+    setIsClosed(false);
+  };
 
   if (!isSupported) {
     return (
@@ -108,5 +144,29 @@ export function WebampPlayer() {
     );
   }
 
-  return <div ref={containerRef} style={{ width: '100%', height: '100%' }} />;
+  return (
+    <div ref={containerRef} style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      {isClosed && (
+        <button
+          type="button"
+          onClick={handleReopen}
+          aria-label="Reopen music player"
+          className="flex flex-col items-center gap-2 opacity-70 hover:opacity-100 transition-opacity"
+          style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit' }}
+        >
+          <span
+            className="flex items-center justify-center rounded-full border border-foreground/50"
+            style={{ width: '48px', height: '48px' }}
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path d="M3 1.5 13 8 3 14.5Z" />
+            </svg>
+          </span>
+          <span style={{ fontFamily: "'ABC ROM'", fontWeight: 300, fontSize: '0.75rem', letterSpacing: '0.02em' }}>
+            Reopen player
+          </span>
+        </button>
+      )}
+    </div>
+  );
 }

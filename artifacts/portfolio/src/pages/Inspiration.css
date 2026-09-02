@@ -1,4 +1,9 @@
 /* Webamp renders itself into a top-level #webamp node appended to <body>, outside this page's DOM. */
+/* Default (no .light class) is dark mode - a black shadow would be invisible there, so glow with a light shadow instead. */
 #webamp {
+  filter: drop-shadow(0 22px 34px rgba(255, 255, 255, 0.12)) drop-shadow(0 4px 10px rgba(255, 255, 255, 0.08));
+}
+
+.light #webamp {
   filter: drop-shadow(0 22px 34px rgba(0, 0, 0, 0.45)) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
 }

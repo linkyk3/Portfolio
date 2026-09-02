@@ -1,6 +1,7 @@
 import { Link } from 'wouter';
+import { Fragment } from 'react';
 import { ThemeToggleInline } from '@/components/ThemeToggle';
-import { WebampPlayer } from '@/components/WebampPlayer';
+import { STAGE_HEIGHT, STAGE_WIDTH, WebampPlayer } from '@/components/WebampPlayer';
 
 import './Inspiration.css';
 
@@ -19,14 +20,36 @@ const NAV_LINKS = [
   { label: 'About', href: '/about' },
 ];
 
+// From https://docs.webamp.org/docs/features/hotkeys/ (enabled via `enableHotkeys` in WebampPlayer.tsx).
+const HOTKEYS = [
+  { key: 'X', action: 'Play' },
+  { key: 'C', action: 'Pause' },
+  { key: 'V', action: 'Stop' },
+  { key: 'B', action: 'Next track' },
+  { key: 'Z', action: 'Previous track' },
+  { key: 'R', action: 'Toggle repeat' },
+  { key: 'S', action: 'Toggle shuffle' },
+  { key: 'L', action: 'Open file dialog' },
+  { key: '\u2190 / \u2192', action: 'Seek backward / forward (5s)' },
+  { key: '\u2191 / \u2193', action: 'Volume up / down' },
+  { key: 'Ctrl+D', action: 'Toggle double size' },
+  { key: 'Ctrl+R', action: 'Reverse playlist' },
+  { key: 'Ctrl+T', action: 'Toggle time mode' },
+  { key: 'Alt+W', action: 'Toggle main window' },
+  { key: 'Alt+E', action: 'Toggle playlist window' },
+  { key: 'Alt+G', action: 'Toggle equalizer window' },
+  { key: 'Space', action: 'Milkdrop: next preset' },
+  { key: 'Backspace', action: 'Milkdrop: previous preset' },
+];
+
 export default function Inspiration() {
   return (
-    <div style={{ width: '100vw', display: 'flex', justifyContent: 'center', background: 'var(--background)' }}>
+    <div style={{ width: '100vw', minWidth: `${STAGE_WIDTH}px`, display: 'flex', justifyContent: 'center', background: 'var(--background)' }}>
       <div
         style={{
           width: '100%',
           maxWidth: 'calc(100vh * 4 / 3)',
-          minHeight: '100vh',
+          minHeight: `max(100vh, ${STAGE_HEIGHT}px)`,
           display: 'flex',
           flexDirection: 'column',
           background: 'var(--background)',
@@ -91,8 +114,60 @@ export default function Inspiration() {
         <div className="flex-shrink-0 bg-foreground" style={{ height: '2px', marginLeft: '2rem', marginRight: '2rem' }} />
 
         <main className="flex-grow" style={{ position: 'relative', minHeight: '85vh', width: '100%' }}>
+          <div className="group" style={{ position: 'absolute', top: '0.85rem', left: '2rem', zIndex: 30 }}>
+            <button
+              type="button"
+              aria-label="Keyboard shortcuts"
+              className="flex items-center justify-center rounded-full border border-foreground/40 hover:border-foreground focus-visible:border-foreground transition-colors"
+              style={{ width: '20px', height: '20px', background: 'none', color: 'inherit', cursor: 'default', ...f(500, '0.75rem') }}
+            >
+              i
+            </button>
+
+            {/* Semi-transparent + backdrop-blur so only the panel's own area blurs what's behind it. */}
+            <div
+              className="absolute opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-150 pointer-events-none"
+              style={{
+                top: '28px',
+                left: 0,
+                width: '260px',
+                background: 'hsl(var(--background) / 0.72)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                borderRadius: '8px',
+                padding: '0.9rem 1.1rem',
+                boxShadow: '0 12px 24px rgba(0, 0, 0, 0.35)',
+              }}
+            >
+              <div style={f(500, '0.85rem', { marginBottom: '0.6rem' })}>Keyboard Shortcuts</div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', columnGap: '0.75rem', rowGap: '0.3rem' }}>
+                {HOTKEYS.map(({ key, action }) => (
+                  <Fragment key={key}>
+                    <span style={f(500, '0.75rem', { opacity: 0.85, whiteSpace: 'nowrap' })}>{key}</span>
+                    <span style={f(300, '0.75rem', { opacity: 0.7, whiteSpace: 'nowrap' })}>{action}</span>
+                  </Fragment>
+                ))}
+              </div>
+            </div>
+          </div>
+
           <WebampPlayer />
         </main>
+
+        <p
+          className="flex-shrink-0"
+          style={f(300, '0.85rem', { opacity: 0.65, letterSpacing: '0.01em', padding: '0 2rem 0.75rem', lineHeight: 1.5 })}
+        >
+          Tip: Right-click on the music player to choose a custom skin or upload your own! Check out{' '}
+          <a href="https://skins.webamp.org/" target="_blank" rel="noopener noreferrer" className="underline hover:text-accent">
+            skins.webamp.org
+          </a>{' '}
+          for more skins. Webamp is a browser reimplementation of the legendary Winamp application. Visit{' '}
+          <a href="https://github.com/captbaritone/webamp" target="_blank" rel="noopener noreferrer" className="underline hover:text-accent">
+            github.com/captbaritone/webamp
+          </a>{' '}
+          for more information.
+        </p>
 
         <div className="flex-shrink-0 bg-foreground" style={{ height: '2px', marginLeft: '2rem', marginRight: '2rem' }} />
 
