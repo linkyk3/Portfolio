@@ -41,7 +41,9 @@ const NAV_LINKS = [
   { label: 'About', href: '/about' },
 ];
 
-const COLLECTIONS = VISUALIZATION_COLLECTIONS.map(({ slug, title }) => ({ slug, title }));
+const COLLECTIONS = VISUALIZATION_COLLECTIONS
+  .map(({ slug, title }) => ({ slug, title }))
+  .sort((a, b) => Number(/^\d/.test(b.title)) - Number(/^\d/.test(a.title)));
 
 const styles: { [key: string]: React.CSSProperties } = {
   pageShell: {
